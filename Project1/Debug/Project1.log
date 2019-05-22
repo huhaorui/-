@@ -1,0 +1,6 @@
+﻿  record.cpp
+C:\Users\HHR\Desktop\University\CPP\大作业\Project1\record.cpp(7): warning C4101: “num_l”: 未引用的局部变量
+C:\Users\HHR\Desktop\University\CPP\大作业\Project1\record.cpp(7): warning C4101: “num_f”: 未引用的局部变量
+C:\Users\HHR\Desktop\University\CPP\大作业\Project1\record.cpp(10): warning C4101: “money_get”: 未引用的局部变量
+C:\Users\HHR\Desktop\University\CPP\大作业\Project1\record.cpp(10): warning C4101: “money_used”: 未引用的局部变量
+  Project1.vcxproj -> C:\Users\HHR\Desktop\University\CPP\大作业\Debug\Project1.exe
