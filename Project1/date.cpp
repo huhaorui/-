@@ -40,7 +40,11 @@ ostream& operator <<(ostream& output, date& d)
 	output << d.year << " " << d.month << " " << d.day << " ";
 	return output;
 }
-
+istream& operator >>(istream& input, date& d)
+{
+	input >> d.year >> d.month >> d.day;
+	return input;
+}
 
 
 
