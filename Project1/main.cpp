@@ -3,9 +3,11 @@
 #include <cstdio>
 #include <fstream>
 #include <conio.h>
+#include <sstream>
 using namespace std;
 record records[1000];
 int k=0;
+
 void init()
 {
 	k = 0;
@@ -15,14 +17,54 @@ void init()
 	double money_get, money_used; //收费，成本
 	string people; //检修人
 	string remark; //备注	
+	int done;
 	ifstream infile;
 	infile.open("datebase.dat", ios::in);
-	while (infile >> num_l >> num_f >> date_yy >> date_fact >> detail >> money_get >> money_used >> people >> remark)
+	while (infile >> num_l >> num_f >> date_yy >> date_fact >> detail >> money_get >> money_used >> people >> remark >> done)
 	{
-		records[k].set(num_l, num_f, date_yy, date_fact, detail, money_get, money_used, people, remark);
+		records[k].set(num_l, num_f, date_yy, date_fact, detail, money_get, money_used, people, remark, done);
 		k++;
 	}
 	infile.close();
+}
+void activity_delete(int n)//存在未知bug
+{
+	cout << "这个操作不可逆转，确认删除这条记录吗？(y/n)\n";
+	char yesno;
+	cin >> yesno;
+	if (yesno != 'y')
+		cout << "操作已取消\n";
+	else
+		for (int x = n; x < k - 1; n++)
+		{
+			records[x] = records[x + 1]; //未来考虑用链表实现
+		}
+	ofstream outfile;
+	outfile.open("datebase.dat", ios::out);
+	outfile.close();
+	k--;
+	for (int x = 0; x < k; x++)
+	{
+		records[x].save_to_file();
+	}
+	init();
+}
+void operate()
+{
+	int n, t;
+	system("cls");
+	cout << "请输入你要操作的序号：输入-1退出\n";
+	cin >> n;
+	if (n >= k || n < 0) cout << "输入错误\n";
+	cout << "请输入你要进行的操作：\n";
+	cout << "1.删除记录   2.修改记录 ";
+	cin >> t;
+	switch (t)
+	{
+	case 1:activity_delete(n); break;
+	case 2:break;
+	default:break;
+	}
 }
 void new_record()
 {
@@ -70,7 +112,7 @@ void search_record()
 			continue;
 		}
 	}
-	system("pause");
+	operate();
 }
 void find_all_record()
 {
@@ -85,7 +127,7 @@ void find_all_record()
 }
 void intime_service()
 {
-
+	
 }
 void advanced_feature()
 {

@@ -10,14 +10,15 @@ private:
 	double money_get,money_used; //收费，成本
 	string people; //检修人
 	string remark; //备注
+	bool done; //是否已经完成
 public:
 	string show_in_line();
 	void save_to_file();
 	void show();
 	bool exist(string s);//判断是否存在子串
-	void set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark);
+	void set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark, bool s_done = 0);
 	record();
-	record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark);
+	record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark,bool s_done=0);
 	~record();
 };
 

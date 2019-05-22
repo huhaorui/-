@@ -1,7 +1,15 @@
 #include "record.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 using namespace std;
+string toString(int n)
+{
+	stringstream sstr;
+	sstr << n;
+	string str = sstr.str();
+	return str;
+}
 string record::show_in_line()
 {
 	string s;
@@ -17,12 +25,13 @@ void record::show()
 	cout << "成本\t：" << money_used << '\n';
 	cout << "维修员\t：" << people << '\n';
 	cout << "备注\t：" << remark << '\n';
+	if (done) cout << "已完成\n"; else cout << "未完成\n";
 }
 void record::save_to_file()
 {
 	ofstream outfile;
 	outfile.open("datebase.dat", ios::app);
-	outfile << num_l << ' ' << num_f << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_get << ' ' << money_used << ' ' << people << ' ' << remark << '\n';
+	outfile << num_l << ' ' << num_f << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_get << ' ' << money_used << ' ' << people << ' ' << remark << ' '<<done<<'\n';
 	outfile.close();
 }
 record::record()
@@ -35,7 +44,7 @@ record::record()
 	people = "";
 	remark = "";
 }
-record::record(int s_num_l,int s_num_f,date s_date_yy,date s_date_fact,string s_detail,double s_money_get,double s_money_used,string s_people,string  s_remark)
+record::record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark, bool s_done)
 {
 	num_l = s_num_l;
 	num_f = s_num_f;
@@ -46,9 +55,10 @@ record::record(int s_num_l,int s_num_f,date s_date_yy,date s_date_fact,string s_
 	money_used = s_money_used;
 	people = s_people;
 	remark = s_remark;
+	done = s_done;
 }
 
-void record::set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark)
+void record::set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark, bool s_done)
 {
 	num_l = s_num_l;
 	num_f = s_num_f;
@@ -59,12 +69,17 @@ void record::set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, str
 	money_used = s_money_used;
 	people = s_people;
 	remark = s_remark;
+	done = s_done;
 }
 bool record::exist(string s)
 {
 	if (detail.find(s) != string::npos) return true;
 	if (people.find(s) != string::npos) return true;
 	if (remark.find(s) != string::npos) return true;
+	if (toString(num_l).find(s) != string::npos) return true;
+	if (toString(num_f).find(s) != string::npos) return true;
+	if (toString(money_get).find(s) != string::npos) return true;
+	if (toString(money_used).find(s) != string::npos) return true;
 	return false;
 }
 record::~record()
