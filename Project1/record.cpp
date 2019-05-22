@@ -4,19 +4,20 @@ using namespace std;
 string record::show_in_line()
 {
 	string s;
-	int num_l, num_f; //楼号，房号
-	date date_yy, date_fact; //预约时间，实际时间
-	string detail; //维修内容
-	double money_get, money_used; //收费，成本
-	string people; //检修人
-	string remark; //备注
-	//将这些东西都放在一行里输出
-
 	return s;
 }
 
-record::record()
+record::record(int s_num_l,int s_num_f,date s_date_yy,date s_date_fact,string s_detail,double s_money_get,double s_money_used,string s_people,string  s_remark)
 {
+	num_l = s_num_l;
+	num_f = s_num_f;
+	date_yy = s_date_yy;
+	date_fact = s_date_fact;
+	detail = s_detail;
+	money_get = s_money_get;
+	money_used = s_money_used;
+	people = s_people;
+	remark = s_remark;
 }
 
 
