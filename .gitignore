@@ -32,3 +32,5 @@
 *.app
 *.tlog
 *.log
+*.db
+*.suo
