@@ -7,7 +7,6 @@
 using namespace std;
 record records[1000];
 int k=0;
-
 void init()
 {
 	k = 0;
@@ -27,7 +26,98 @@ void init()
 	}
 	infile.close();
 }
-void activity_delete(int n)//存在未知bug？？
+void save_all()
+{
+	ofstream outfile;
+	outfile.open("datebase.dat", ios::out);
+	outfile.close();
+	for (int x = 0; x < k; x++)
+	{
+		records[x].save_to_file();
+	}
+	init();
+}
+void activity_edit(int n)
+{
+	string op;
+	system("cls");
+	records[n].show();
+	cout << "\n请选择你要修改的项目\n";
+	cout << "1.楼房号码\n2.预约时间\n3.维修内容\n4.收费与成本\n5.检修人\n6.备注\n7.全部\n8.退出\n";
+	cout << "请一次性输入所有要修改的项目，如“135”\n";
+	cin >> op;
+	for (int x = 0; x < op.length(); x++)
+	{
+		int num_l, num_f; //楼号，房号
+		date date_yy, date_fact; //预约时间，实际时间
+		string detail; //维修内容
+		double money_get, money_used; //收费，成本
+		string people; //检修人
+		string remark; //备注	
+		system("cls");
+		records[n].show();
+		switch (op[x])
+		{
+		case '1':
+			cout << "请输入新的楼号与房号:";
+			cin >> num_l >> num_f;
+			records[n].edit_num(num_l, num_f);
+			break;
+		case '2':
+			cout << "请输入新的预约时间:";
+			cin >> date_yy;
+			records[n].edit_date_yy(date_yy);
+			break;
+		case '3':
+			cout << "请输入维修内容：";
+			cin >> detail;
+			records[n].edit_detail(detail);
+			break;
+		case '4':
+			cout << "请输入收费和成本：";
+			cin >> money_get >> money_used;
+			records[n].edit_money(money_get, money_used);
+			break;
+		case '5':
+			cout << "请输入检修人：";
+			cin >> people;
+			records[n].edit_people(people);
+			break;
+		case '6':
+			cout << "请输入备注：";
+			cin >> remark;
+			records[n].edit_remark(remark);
+			break;
+		case '7':
+			cout << "请输入新的楼号与房号:";
+			cin >> num_l >> num_f;
+			records[n].edit_num(num_l, num_f);
+			cout << "请输入新的预约时间:";
+			cin >> date_yy;
+			records[n].edit_date_yy(date_yy);
+			cout << "请输入维修内容：";
+			cin >> detail;
+			records[n].edit_detail(detail);
+			cout << "请输入收费和成本：";
+			cin >> money_get >> money_used;
+			records[n].edit_money(money_get, money_used);
+			cout << "请输入检修人：";
+			cin >> people;
+			records[n].edit_people(people);
+			cout << "请输入备注：";
+			cin >> remark;
+			records[n].edit_remark(remark);
+		case '8':
+		default:;
+		}
+	}
+	save_all();
+	system("cls");
+	cout << "操作成功完成\n";
+	records[n].show();
+	system("pause");
+}
+void activity_delete(int n)
 {
 	cout << "这个操作不可逆转，确认删除这条记录吗？(y/n)\n";
 	char yesno;
@@ -35,36 +125,54 @@ void activity_delete(int n)//存在未知bug？？
 	if (yesno != 'y')
 		cout << "操作已取消\n";
 	else
-		for (int x = n; x < k - 1; n++)
+		for (int x = n; x < k - 1; x++)
 		{
 			records[x] = records[x + 1]; //未来考虑用链表实现
 		}
-	ofstream outfile;
-	outfile.open("datebase.dat", ios::out);
-	outfile.close();
 	k--;
-	for (int x = 0; x < k; x++)
-	{
-		records[x].save_to_file();
-	}
-	init();
+	save_all();
 }
-void operate()
+void activity_finish(int n)
+{
+	date d;
+	char c;
+	cout << "请输入完成日期：";
+	cin >> d;
+	cout << "确定完成操作了？(y/n)  ";
+	cin >> c;
+	if (c == 'y')
+	{
+		records[n].edit_date_fact(d);
+		records[n].edit_done();
+	}
+	save_all();
+}
+int operate()
 {
 	int n, t;
-	system("cls");
-	cout << "请输入你要操作的序号：输入-1退出\n";
+	cout << "请输入你要操作的ID：输入-1退出\n";
 	cin >> n;
-	if (n >= k || n < 0) cout << "输入错误\n";
-	cout << "请输入你要进行的操作：\n";
-	cout << "1.删除记录   2.修改记录 ";
+	if (n == -1)
+	{
+		return 0;
+	}
+	if (n >= k || n < 0)
+	{
+		cout << "输入错误\n";
+		system("pause");
+		return 1;
+	}
+	cout << "1.删除记录   2.修改记录  3.完工登记\n";
+	cout << "请输入你要进行的操作：";
 	cin >> t;
 	switch (t)
 	{
 	case 1:activity_delete(n); break;
-	case 2:break;
+	case 2:activity_edit(n); break;
+	case 3:activity_finish(n); break;
 	default:break;
 	}
+	return 0;
 }
 void new_record()
 {
@@ -123,7 +231,7 @@ void find_all_record()
 		records[x].show();
 		cout << '\n';
 	}
-	system("pause");
+	operate();
 }
 void intime_service()
 {

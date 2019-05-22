@@ -20,12 +20,52 @@ void record::show()
 	cout << "位置\t：" << num_l << "楼，" << num_f << "房\n";
 	cout << "预约时间：";
 	date_yy.show();
+	if (done)
+	{
+		cout << "\n完成时间：";
+		date_fact.show();
+	}
 	cout << "\n维修内容：" << detail << '\n';
 	cout << "收费\t：" << money_get << '\n';
 	cout << "成本\t：" << money_used << '\n';
 	cout << "维修员\t：" << people << '\n';
 	cout << "备注\t：" << remark << '\n';
+	cout << "状态\t：";
 	if (done) cout << "已完成\n"; else cout << "未完成\n";
+}
+void record::edit_num(int a, int b)
+{
+	num_l = a;
+	num_f = b;
+}
+void record::edit_date_yy(date d)
+{
+	date_yy = d;
+}
+void record::edit_date_fact(date d)
+{
+	date_fact = d;
+}
+void record::edit_detail(string s)
+{
+	detail = s;
+}
+void record::edit_money(double a, double b)
+{
+	money_get = a;
+	money_used = b;
+}
+void record::edit_people(string s)
+{
+	people = s;
+}
+void record::edit_remark(string s)
+{
+	remark = s;
+}
+void record::edit_done()
+{
+	done = true;
 }
 void record::save_to_file()
 {
@@ -43,6 +83,7 @@ record::record()
 	money_used = 0;
 	people = "";
 	remark = "";
+	done = 0;
 }
 record::record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark, bool s_done)
 {
