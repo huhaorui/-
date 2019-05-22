@@ -13,6 +13,14 @@ private:
 	bool done; //是否已经完成
 public:
 	string show_in_line();
+	friend bool operator <(record& r1, record& r2)
+	{
+		return r1.date_yy < r2.date_yy;
+	}
+	friend bool operator >(record& r1, record& r2)
+	{
+		return r1.date_yy > r2.date_yy;
+	}
 	void save_to_file();
 	void show();
 	void edit_num(int, int);

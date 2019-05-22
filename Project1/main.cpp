@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <sstream>
 #include <time.h>
+#include <algorithm>
 using namespace std;
 record records[1000];
 int k = 0;//总的记录数
@@ -36,8 +37,13 @@ void init()
 	}
 	infile.close();
 }
+bool cmp(record& a, record& b)
+{
+	return a < b;
+}
 void save_all()
 {
+	sort(records, records + k, cmp);
 	ofstream outfile;
 	outfile.open("datebase.dat", ios::out);
 	outfile.close();
@@ -377,22 +383,6 @@ void statistic_income()
 	case 3: statistic_income_people(); break;
 	}
 }
-void advanced_feature()
-{
-	system("cls");
-	int n;
-	cout << "1.利润查询\n";
-	cout << "2.盈利\n";
-	cout << "3.完工数量\n";
-	cout << "请选择你要统计的数据：";
-	cin >> n;
-	switch (n)
-	{
-	case 1:statistic_income(); break;
-		//case 2:statistic_profit(); break;
-	case 3:break;
-	}
-}
 int main()
 {
 	init();
@@ -400,6 +390,8 @@ int main()
 	while (true)
 	{
 		int c;
+		save_all();
+		init();
 		cout << "1.新增记录\n";
 		cout << "2.搜索记录\n";
 		cout << "3.查看所有记录\n";
@@ -413,7 +405,7 @@ int main()
 		case 2:search_record(); break;
 		case 3:find_all_record(); break;
 		case 4:intime_service(); break;
-		case 5:advanced_feature(); break;
+		case 5:statistic_income(); break;
 		case 6:save_all(); cout << "再见"; return 0; break;
 		default:
 			cout << "输入错误，请重新输入\n";
