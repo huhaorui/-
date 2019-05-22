@@ -4,9 +4,19 @@
 #include <fstream>
 #include <conio.h>
 #include <sstream>
+#include <time.h>
 using namespace std;
 record records[1000];
-int k=0;
+int k=0;//总的记录数
+date today()
+{
+	tm t;
+	time_t now;
+	time(&now);
+	localtime_s(&t, &now);
+	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
+	return d;
+}
 void init()
 {
 	k = 0;
@@ -119,7 +129,7 @@ void activity_edit(int n)
 }
 void activity_delete(int n)
 {
-	cout << "这个操作不可逆转，确认删除这条记录吗？(y/n)\n";
+	cout << "这个操作不可逆，确认删除这条记录吗？(y/n)\n";
 	char yesno;
 	cin >> yesno;
 	if (yesno != 'y')
@@ -146,8 +156,12 @@ void activity_finish(int n)
 		records[n].edit_done();
 	}
 	save_all();
+	system("cls");
+	records[n].show();
+	cout << "\n操作已成功完成\n";
+	system("pause");
 }
-int operate()
+int operate() //操作起来！
 {
 	int n, t;
 	cout << "请输入你要操作的ID：输入-1退出\n";
@@ -233,9 +247,63 @@ void find_all_record()
 	}
 	operate();
 }
+void fix_unfinished()
+{
+	system("cls");
+	for (int x = 0; x < k; x++)
+	{
+		if (records[x].unfinished())
+		{
+			cout << "ID\t：" << x << '\n';
+			records[x].show();
+			cout << '\n';
+		}
+	}
+	operate();
+}
+void fix_overdate()
+{
+	system("cls");
+	for (int x = 0; x < k; x++)
+	{
+		if (records[x].unfinished()&&records[x].overdate(today()))
+		{
+			cout << "ID\t：" << x << '\n';
+			records[x].show();
+			cout << '\n';
+		}
+	}
+	operate();
+}
+void fix_two_days()
+{
+	system("cls");
+	for (int x = 0; x < k; x++)
+	{
+		if (records[x].unfinished() && records[x].overdate(today().tomorrow().tomorrow().tomorrow()))
+		{
+			cout << "ID\t：" << x << '\n';
+			records[x].show();
+			cout << '\n';
+		}
+	}
+	operate();
+}
 void intime_service()
 {
-	
+	system("cls");
+	cout << "1.显示所有未完成的维修\n";
+	cout << "2.显示超期未完成的维修\n";
+	cout << "3.显示两天内需要完成的维修\n";
+	cout << "请输入你要显示的内容\n";
+	int t;
+	cin >> t;
+	switch (t)
+	{
+	case 1:fix_unfinished(); break;
+	case 2:fix_overdate(); break;
+	case 3:fix_two_days(); break;
+	}
 }
 void advanced_feature()
 {
@@ -262,10 +330,9 @@ int main()
 		case 3:find_all_record(); break;
 		case 4:intime_service(); break;
 		case 5:advanced_feature(); break;
-		case 6:cout << "再见"; return 0; break;
+		case 6:save_all(); cout << "再见"; return 0; break;
 		default:
 			cout << "输入错误，请重新输入\n";
-
 		}
 		system("cls");
 	}

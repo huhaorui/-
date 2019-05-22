@@ -23,6 +23,8 @@ public:
 	void edit_people(string);
 	void edit_remark(string);
 	void edit_done();
+	bool unfinished();
+	bool overdate(date);
 	bool exist(string s);//ÅĞ¶ÏÊÇ·ñ´æÔÚ×Ó´®
 	void set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark, bool s_done = 0);
 	record();

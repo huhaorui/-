@@ -74,6 +74,15 @@ void record::save_to_file()
 	outfile << num_l << ' ' << num_f << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_get << ' ' << money_used << ' ' << people << ' ' << remark << ' '<<done<<'\n';
 	outfile.close();
 }
+bool record::unfinished()
+{
+	return !done;
+}
+bool record::overdate(date d)
+{
+	if (d > date_yy) return true;
+	return false;
+}
 record::record()
 {
 	num_l = 0;
