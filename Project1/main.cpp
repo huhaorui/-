@@ -4,6 +4,26 @@
 #include <fstream>
 #include <conio.h>
 using namespace std;
+record records[1000];
+int k=0;
+void init()
+{
+	k = 0;
+	int num_l, num_f; //楼号，房号
+	date date_yy, date_fact; //预约时间，实际时间
+	string detail; //维修内容
+	double money_get, money_used; //收费，成本
+	string people; //检修人
+	string remark; //备注	
+	ifstream infile;
+	infile.open("datebase.dat", ios::in);
+	while (infile >> num_l >> num_f >> date_yy >> date_fact >> detail >> money_get >> money_used >> people >> remark)
+	{
+		records[k].set(num_l, num_f, date_yy, date_fact, detail, money_get, money_used, people, remark);
+		k++;
+	}
+	infile.close();
+}
 void new_record()
 {
 	system("cls");
@@ -30,15 +50,38 @@ void new_record()
 	system("cls");
 	cout << "保存成功!记录如下：\n";
 	new_record.show();
+	init();
 	system("pause");
 }
 void search_record()
 {
-
+	system("cls");
+	string key;
+	cout << "请输入你要查找的关键词\n";
+	cin >> key;
+	system("cls");
+	for (int x = 0; x < k; x++)
+	{
+		if (records[x].exist(key))
+		{
+			cout << "ID\t：" << x << '\n';
+			records[x].show();
+			cout << '\n';
+			continue;
+		}
+	}
+	system("pause");
 }
 void find_all_record()
 {
-
+	system("cls");
+	for (int x = 0; x < k; x++)
+	{
+		cout << "ID\t：" << x << '\n';
+		records[x].show();
+		cout << '\n';
+	}
+	system("pause");
 }
 void intime_service()
 {
@@ -50,6 +93,7 @@ void advanced_feature()
 }
 int main()
 {
+	init();
 	cout << "欢迎使用物业管理维修系统\n";
 	while (true)
 	{

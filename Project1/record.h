@@ -14,6 +14,9 @@ public:
 	string show_in_line();
 	void save_to_file();
 	void show();
+	bool exist(string s);//ÅĞ¶ÏÊÇ·ñ´æÔÚ×Ó´®
+	void set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark);
+	record();
 	record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark);
 	~record();
 };
