@@ -2,9 +2,11 @@
 #include "record.h"
 #include <cstdio>
 #include <fstream>
+#include <conio.h>
 using namespace std;
 void new_record()
 {
+	system("cls");
 	int num_l, num_f; //楼号，房号
 	date date_yy, date_fact; //预约时间，实际时间
 	string detail; //维修内容
@@ -25,6 +27,10 @@ void new_record()
 	cin >> remark;
 	record new_record(num_l, num_f, date_yy, date_fact, detail, money_get, money_used, people, remark);
 	new_record.save_to_file();
+	system("cls");
+	cout << "保存成功!记录如下：\n";
+	new_record.show();
+	system("pause");
 }
 void search_record()
 {

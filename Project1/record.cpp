@@ -7,6 +7,16 @@ string record::show_in_line()
 	string s;
 	return s;
 }
+void record::show()
+{
+	cout << "位置\t：" << num_l << "楼，" << num_f << "房\n";
+	cout << "预约时间：" << date_yy<<'\n';
+	cout << "维修内容：" << detail << '\n';
+	cout << "收费\t：" << money_get << '\n';
+	cout << "成本\t：" << money_used << '\n';
+	cout << "维修员\t：" << people << '\n';
+	cout << "备注\t：" << remark << '\n';
+}
 void record::save_to_file()
 {
 	ofstream outfile;
