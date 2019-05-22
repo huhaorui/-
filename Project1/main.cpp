@@ -27,7 +27,7 @@ void init()
 	}
 	infile.close();
 }
-void activity_delete(int n)//存在未知bug
+void activity_delete(int n)//存在未知bug？？
 {
 	cout << "这个操作不可逆转，确认删除这条记录吗？(y/n)\n";
 	char yesno;
