@@ -26,8 +26,8 @@ void record::show()
 		date_fact.show();
 	}
 	cout << "\n维修内容：" << detail << '\n';
-	cout << "收费\t：" << money_get << '\n';
-	cout << "成本\t：" << money_used << '\n';
+	cout << "收费\t：" << money_income << '\n';
+	cout << "成本\t：" << money_outcome << '\n';
 	cout << "维修员\t：" << people << '\n';
 	cout << "备注\t：" << remark << '\n';
 	cout << "状态\t：";
@@ -52,8 +52,8 @@ void record::edit_detail(string s)
 }
 void record::edit_money(double a, double b)
 {
-	money_get = a;
-	money_used = b;
+	money_income = a;
+	money_outcome = b;
 }
 void record::edit_people(string s)
 {
@@ -71,7 +71,7 @@ void record::save_to_file()
 {
 	ofstream outfile;
 	outfile.open("datebase.dat", ios::app);
-	outfile << num_l << ' ' << num_f << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_get << ' ' << money_used << ' ' << people << ' ' << remark << ' '<<done<<'\n';
+	outfile << num_l << ' ' << num_f << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_income << ' ' << money_outcome << ' ' << people << ' ' << remark << ' ' << done << '\n';
 	outfile.close();
 }
 bool record::unfinished()
@@ -83,40 +83,44 @@ bool record::overdate(date d)
 	if (d > date_yy) return true;
 	return false;
 }
+bool record::day_fact_is(date d)
+{
+	if (d == date_fact) return true; else return false;
+}
 record::record()
 {
 	num_l = 0;
 	num_f = 0;
 	detail = "";
-	money_get = 0;
-	money_used = 0;
+	money_income = 0;
+	money_outcome = 0;
 	people = "";
 	remark = "";
 	done = 0;
 }
-record::record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark, bool s_done)
+record::record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
 {
 	num_l = s_num_l;
 	num_f = s_num_f;
 	date_yy = s_date_yy;
 	date_fact = s_date_fact;
 	detail = s_detail;
-	money_get = s_money_get;
-	money_used = s_money_used;
+	money_income = s_money_income;
+	money_outcome = s_money_outcome;
 	people = s_people;
 	remark = s_remark;
 	done = s_done;
 }
 
-void record::set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_get, double s_money_used, string s_people, string  s_remark, bool s_done)
+void record::set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
 {
 	num_l = s_num_l;
 	num_f = s_num_f;
 	date_yy = s_date_yy;
 	date_fact = s_date_fact;
 	detail = s_detail;
-	money_get = s_money_get;
-	money_used = s_money_used;
+	money_income = s_money_income;
+	money_outcome = s_money_outcome;
 	people = s_people;
 	remark = s_remark;
 	done = s_done;
@@ -128,8 +132,8 @@ bool record::exist(string s)
 	if (remark.find(s) != string::npos) return true;
 	if (toString(num_l).find(s) != string::npos) return true;
 	if (toString(num_f).find(s) != string::npos) return true;
-	if (toString(money_get).find(s) != string::npos) return true;
-	if (toString(money_used).find(s) != string::npos) return true;
+	if (toString(money_income).find(s) != string::npos) return true;
+	if (toString(money_outcome).find(s) != string::npos) return true;
 	return false;
 }
 record::~record()

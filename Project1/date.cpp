@@ -15,7 +15,7 @@ date::date(int y, int m, int d)
 	month = m;
 	day = d;
 }
-bool operator >(date& d1, date& d2)
+bool operator >(date & d1, date & d2)
 {
 	if (d1.year > d2.year)
 		return true;
@@ -29,7 +29,7 @@ bool operator >(date& d1, date& d2)
 		return true;
 	else return false;
 }
-bool operator <(date& d1, date& d2)
+bool operator <(date & d1, date & d2)
 {
 	if (d1.year < d2.year)
 		return true;
@@ -43,15 +43,22 @@ bool operator <(date& d1, date& d2)
 		return true;
 	else return false;
 }
-ostream& operator <<(ostream& output, date& d)
+ostream& operator <<(ostream & output, date & d)
 {
 	output << d.year << " " << d.month << " " << d.day << " ";
 	return output;
 }
-istream& operator >>(istream& input, date& d)
+istream& operator >>(istream & input, date & d)
 {
 	input >> d.year >> d.month >> d.day;
 	return input;
+}
+bool operator ==(date & d1, date & d2)
+{
+	if (d1.year == d2.year && d1.month == d2.month && d1.day == d2.day)
+		return true;
+	else
+		return false;
 }
 date date::tomorrow()
 {

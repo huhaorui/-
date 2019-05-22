@@ -7,7 +7,7 @@
 #include <time.h>
 using namespace std;
 record records[1000];
-int k=0;//总的记录数
+int k = 0;//总的记录数
 date today()
 {
 	tm t;
@@ -23,15 +23,15 @@ void init()
 	int num_l, num_f; //楼号，房号
 	date date_yy, date_fact; //预约时间，实际时间
 	string detail; //维修内容
-	double money_get, money_used; //收费，成本
+	double money_income, money_outcome; //收费，成本
 	string people; //检修人
 	string remark; //备注	
 	int done;
 	ifstream infile;
 	infile.open("datebase.dat", ios::in);
-	while (infile >> num_l >> num_f >> date_yy >> date_fact >> detail >> money_get >> money_used >> people >> remark >> done)
+	while (infile >> num_l >> num_f >> date_yy >> date_fact >> detail >> money_income >> money_outcome >> people >> remark >> done)
 	{
-		records[k].set(num_l, num_f, date_yy, date_fact, detail, money_get, money_used, people, remark, done);
+		records[k].set(num_l, num_f, date_yy, date_fact, detail, money_income, money_outcome, people, remark, done);
 		k++;
 	}
 	infile.close();
@@ -61,7 +61,7 @@ void activity_edit(int n)
 		int num_l, num_f; //楼号，房号
 		date date_yy, date_fact; //预约时间，实际时间
 		string detail; //维修内容
-		double money_get, money_used; //收费，成本
+		double money_income, money_outcome; //收费，成本
 		string people; //检修人
 		string remark; //备注	
 		system("cls");
@@ -85,8 +85,8 @@ void activity_edit(int n)
 			break;
 		case '4':
 			cout << "请输入收费和成本：";
-			cin >> money_get >> money_used;
-			records[n].edit_money(money_get, money_used);
+			cin >> money_income >> money_outcome;
+			records[n].edit_money(money_income, money_outcome);
 			break;
 		case '5':
 			cout << "请输入检修人：";
@@ -109,8 +109,8 @@ void activity_edit(int n)
 			cin >> detail;
 			records[n].edit_detail(detail);
 			cout << "请输入收费和成本：";
-			cin >> money_get >> money_used;
-			records[n].edit_money(money_get, money_used);
+			cin >> money_income >> money_outcome;
+			records[n].edit_money(money_income, money_outcome);
 			cout << "请输入检修人：";
 			cin >> people;
 			records[n].edit_people(people);
@@ -194,7 +194,7 @@ void new_record()
 	int num_l, num_f; //楼号，房号
 	date date_yy, date_fact; //预约时间，实际时间
 	string detail; //维修内容
-	double money_get, money_used; //收费，成本
+	double money_income, money_outcome; //收费，成本
 	string people; //检修人
 	string remark; //备注	
 	cout << "请输入楼号和房号\n";
@@ -204,12 +204,12 @@ void new_record()
 	cout << "请输入维修内容\n";
 	cin >> detail;
 	cout << "请输入收费与成本价\n";
-	cin >> money_get >> money_used;
+	cin >> money_income >> money_outcome;
 	cout << "请分配检修员:\n";
 	cin >> people;
 	cout << "请输入备注:\n";
 	cin >> remark;
-	record new_record(num_l, num_f, date_yy, date_fact, detail, money_get, money_used, people, remark);
+	record new_record(num_l, num_f, date_yy, date_fact, detail, money_income, money_outcome, people, remark);
 	new_record.save_to_file();
 	system("cls");
 	cout << "保存成功!记录如下：\n";
@@ -266,7 +266,7 @@ void fix_overdate()
 	system("cls");
 	for (int x = 0; x < k; x++)
 	{
-		if (records[x].unfinished()&&records[x].overdate(today()))
+		if (records[x].unfinished() && records[x].overdate(today()))
 		{
 			cout << "ID\t：" << x << '\n';
 			records[x].show();
@@ -305,9 +305,93 @@ void intime_service()
 	case 3:fix_two_days(); break;
 	}
 }
+void statistic_income_date()
+{
+	cout << "请输入你要统计的日期：";
+	date d;
+	double total_income = 0, total_outcome = 0;
+	int num = 0;
+	cin >> d;
+	for (int x = 0; x < k; x++)
+	{
+		if (records[x].day_fact_is(d) && !records[x].unfinished())
+		{
+			num++;
+			total_income += records[x].get_income();
+			total_outcome += records[x].get_outcome();
+		}
+	}
+	cout << "\n在这一天里，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
+	system("pause");
+}
+void statistic_income_building()
+{
+	cout << "请输入你要统计的楼：";
+	int build;
+	double total_income = 0, total_outcome = 0;
+	int num = 0;
+	cin >> build;
+	for (int x = 0; x < k; x++)
+	{
+		if (records[x].num_l_is(build) && !records[x].unfinished())
+		{
+			num++;
+			total_income += records[x].get_income();
+			total_outcome += records[x].get_outcome();
+		}
+	}
+	cout << "\n对这栋楼，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
+	system("pause");
+}
+void statistic_income_people()
+{
+	cout << "请输入你要统计的检修员姓名：";
+	string name;
+	double total_income = 0, total_outcome = 0;
+	int num = 0;
+	cin >> name;
+	for (int x = 0; x < k; x++)
+	{
+		if (records[x].name_is(name) && !records[x].unfinished())
+		{
+			num++;
+			total_income += records[x].get_income();
+			total_outcome += records[x].get_outcome();
+		}
+	}
+	cout << '\n' << name << "总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
+	system("pause");
+}
+void statistic_income()
+{
+	int n;
+	cout << "1.按天统计\n";
+	cout << "2.按楼统计\n";
+	cout << "3.按检修员统计\n";
+	cout << "请选择统计的维度：";
+	cin >> n;
+	switch (n)
+	{
+	case 1: statistic_income_date(); break;
+	case 2: statistic_income_building(); break;
+	case 3: statistic_income_people(); break;
+	}
+}
 void advanced_feature()
 {
-
+	system("cls");
+	int n;
+	cout << "1.利润查询\n";
+	cout << "2.盈利\n";
+	cout << "3.完工数量\n";
+	cout << "请选择你要统计的数据：";
+	cin >> n;
+	switch (n)
+	{
+	case 1:statistic_income(); break;
+		//case 2:statistic_profit(); break;
+	case 3:break;
+	}
 }
 int main()
 {
@@ -324,7 +408,7 @@ int main()
 		cout << "6.退出系统\n";
 		cout << "请输入你要使用的功能：";
 		cin >> c;
-		switch (c){
+		switch (c) {
 		case 1:new_record(); break;
 		case 2:search_record(); break;
 		case 3:find_all_record(); break;
