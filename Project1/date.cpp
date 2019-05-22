@@ -12,6 +12,3 @@ ostream& operator <<(ostream& output, date& d)
 	output << d.year << " " << d.month << " " << d.day << " ";
 	return output;
 }
-
-
-
