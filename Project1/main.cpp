@@ -7,6 +7,7 @@
 #include <sstream>
 #include <time.h>
 #include <algorithm>
+#include <string>
 using namespace std;
 record records[1000];
 int k = 0;//总的记录数
@@ -40,7 +41,7 @@ void init()
 	string remark; //备注	
 	int done;
 	ifstream infile;
-	infile.open("datebase.dat", ios::in);
+	infile.open("database.dat", ios::in);
 	while (infile >> num_l >> num_f >> date_yy >> date_fact >> detail >> money_income >> money_outcome >> people >> remark >> done)
 	{
 		records[k].set(num_l, num_f, date_yy, date_fact, detail, money_income, money_outcome, people, remark, done);
@@ -56,7 +57,7 @@ void save_all()
 {
 	sort(records, records + k, cmp);
 	ofstream outfile;
-	outfile.open("datebase.dat", ios::out);
+	outfile.open("database.dat", ios::out);
 	outfile.close();
 	for (int x = 0; x < k; x++)
 	{
@@ -91,9 +92,25 @@ void activity_edit(int n)
 			records[n].edit_num(num_l, num_f);
 			break;
 		case '2':
-			cout << "请输入新的预约时间:";
-			cin >> date_yy;
-			records[n].edit_date_yy(date_yy);
+			cout << "请输入新的预约时间:（输入一个小于10的数n，表示n天后）";
+			int day_later;
+			cin >> day_later;
+			if (day_later < 10)
+			{
+				date date_tmp = today();
+				for (int x = 0; x < day_later; x++)
+				{
+					date_tmp = date_tmp.tomorrow();
+				}
+				records[n].edit_date_yy(date_tmp);
+			}
+			else
+			{
+				int year = day_later;
+				int month, day;
+				cin >> month >> day;
+				records[n].edit_date_yy(date(year, month, day));
+			}
 			break;
 		case '3':
 			cout << "请输入维修内容： ";
@@ -119,9 +136,25 @@ void activity_edit(int n)
 			cout << "请输入新的楼号与房号:";
 			cin >> num_l >> num_f;
 			records[n].edit_num(num_l, num_f);
-			cout << "请输入新的预约时间:";
-			cin >> date_yy;
-			records[n].edit_date_yy(date_yy);
+			cout << "请输入新的预约时间:（输入一个小于10的数n，表示n天后）";
+			int day_later2;
+			cin >> day_later2;
+			if (day_later2 < 10)
+			{
+				date date_tmp = today();
+				for (int x = 0; x < day_later2; x++)
+				{
+					date_tmp = date_tmp.tomorrow();
+				}
+				records[n].edit_date_yy(date_tmp);
+			}
+			else
+			{
+				int year = day_later2;
+				int month, day;
+				cin >> month >> day;
+				records[n].edit_date_yy(date(year, month, day));
+			}
 			cout << "请输入维修内容： ";
 			cin >> detail;
 			records[n].edit_detail(detail);
@@ -138,10 +171,10 @@ void activity_edit(int n)
 		default:;
 		}
 	}
-	save_all();
 	system("cls");
-	cout << "操作成功完成\n";
 	records[n].show(n);
+	save_all();
+	cout << "操作成功完成\n";
 	system("pause");
 }
 void activity_delete(int n)
@@ -242,8 +275,25 @@ void new_record()
 	string remark; //备注	
 	cout << "请输入楼号和房号\n";
 	cin >> num_l >> num_f;
-	cout << "请输入预约时间\n";
-	cin >> date_yy;
+	cout << "请输入预约时间（输入一个小于10的数n，表示n天后）\n";
+	int day_later;
+	cin >> day_later;
+	if (day_later < 10)
+	{
+		date date_tmp = today();
+		for (int x = 0; x < day_later; x++)
+		{
+			date_tmp = date_tmp.tomorrow();
+		}
+		date_yy=date_tmp;
+	}
+	else
+	{
+		int year = day_later;
+		int month, day;
+		cin >> month >> day;
+		date_yy=(date(year, month, day));
+	}
 	cout << "请输入维修内容\n";
 	cin >> detail;
 	cout << "请输入收费与成本价\n";

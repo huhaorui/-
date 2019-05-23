@@ -91,7 +91,7 @@ void record::edit_done()
 void record::save_to_file()
 {
 	ofstream outfile;
-	outfile.open("datebase.dat", ios::app);
+	outfile.open("database.dat", ios::app);
 	outfile << num_l << ' ' << num_f << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_income << ' ' << money_outcome << ' ' << people << ' ' << remark << ' ' << done << '\n';
 	outfile.close();
 }
