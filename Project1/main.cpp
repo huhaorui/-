@@ -234,7 +234,7 @@ void activity_edit(int n)//傻子安全
 		switch (op[x])
 		{
 		case '1':edit_num(n); break;
-		case '2':edit_date(n);break;
+		case '2':edit_date(n); break;
 		case '3':edit_detail(n); break;
 		case '4':edit_money(n); break;
 		case '5':edit_people(n); break;
@@ -417,7 +417,7 @@ void new_record()//傻子安全
 			cin.ignore(100, '\n');//清空cin流
 			cin >> day;
 		}
-		date_yy=date(year, to_int(month), to_int(day));
+		date_yy = date(year, to_int(month), to_int(day));
 	}
 	cout << "请输入维修内容\n";
 	cin >> detail;
@@ -440,7 +440,7 @@ void new_record()//傻子安全
 	cin >> people;
 	cout << "请输入备注:\n";
 	cin >> remark;
-	records[k]=record(to_int(num_building), to_int(num_house), date_yy, date_fact, detail, to_double(money_income), to_double(money_outcome), people, remark);
+	records[k] = record(to_int(num_building), to_int(num_house), date_yy, date_fact, detail, to_double(money_income), to_double(money_outcome), people, remark);
 	cls();
 	cout << "保存成功!记录如下：\n";
 	records[k].show();
@@ -482,7 +482,7 @@ void find_all_record()//傻子安全
 		records[x].show(x);
 		cout << '\n';
 	}
-	if (k != 0) 
+	if (k != 0)
 		operate();
 	else
 	{
@@ -538,7 +538,7 @@ void fix_two_days()//傻子安全
 	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
-		if (records[x].unfinished() && records[x].overdate(today().tomorrow().tomorrow().tomorrow()))
+		if (records[x].unfinished() && !records[x].overdate(today()) && records[x].overdate(today().tomorrow().tomorrow().tomorrow()))
 		{
 			n++;
 			records[x].show(x);
@@ -584,7 +584,7 @@ void statistic_income_date()//傻子安全
 		cin.ignore(100, '\n');//清空cin流
 		cin >> day_later;
 	}
-	if (to_int(day_later) == 0) 
+	if (to_int(day_later) == 0)
 		d = today();
 	else
 	{
@@ -617,7 +617,7 @@ void statistic_income_date()//傻子安全
 	}
 	cout << "\n在";
 	d.show();
-	cout<<"，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
+	cout << "，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
 	pause();
 }
 void statistic_income_building()//傻子安全
@@ -701,7 +701,7 @@ int main()//傻子安全
 		cout << "└──────────────────┘\n";
 		cout << "请输入你要使用的功能： ";
 		cin >> c;
-		switch (c[0]-'0') {
+		switch (c[0] - '0') {
 		case 1:new_record(); break;
 		case 2:search_record(); break;
 		case 3:find_all_record(); break;

@@ -1,6 +1,6 @@
 #pragma once
 #include "date.h"
-class date_time:public date
+class date_time :public date
 {
 private:
 	int hour;
