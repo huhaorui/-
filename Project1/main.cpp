@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <string>
 using namespace std;
-record records[1000];
+record records[10000];
 int k = 0;//总的记录数
 //傻子安全的定义：cin流只会进入string中，如果不符合要求，就会要求重输
 void pause()
@@ -207,6 +207,7 @@ bool cmp(record& a, record& b)
 }
 void save_all()//傻子安全
 {
+	cout << "正在保存文件，请耐心等待\n";
 	sort(records, records + k, cmp);
 	ofstream outfile;
 	outfile.open("database.dat", ios::out);
@@ -684,8 +685,9 @@ int main()//傻子安全
 	while (true)
 	{
 		string c;
-		save_all();
+		cout << "正在读取文件，请等待\n";
 		init();
+		cls();
 		now().show();
 		cout << '\n';
 		cout << "┌──────────────────┐\n";
@@ -704,7 +706,7 @@ int main()//傻子安全
 		case 3:find_all_record(); break;
 		case 4:intime_service(); break;
 		case 5:statistic_income(); break;
-		case 6:save_all(); cout << "再见"; return 0; break;
+		case 6:save_all(); cout << "感谢使用，再见"; return 0; break;
 		default:
 			cout << "输入错误，请重新输入\n";
 		}
