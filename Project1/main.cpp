@@ -57,7 +57,7 @@ void activity_edit(int n)
 {
 	string op;
 	system("cls");
-	records[n].show();
+	records[n].show(n);
 	cout << "\n请选择你要修改的项目\n";
 	cout << "1.楼房号码\n2.预约时间\n3.维修内容\n4.收费与成本\n5.检修人\n6.备注\n7.全部\n8.退出\n";
 	cout << "请一次性输入所有要修改的项目，如“135”\n";
@@ -71,7 +71,7 @@ void activity_edit(int n)
 		string people; //检修人
 		string remark; //备注	
 		system("cls");
-		records[n].show();
+		records[n].show(n);
 		switch (op[x])
 		{
 		case '1':
@@ -85,22 +85,22 @@ void activity_edit(int n)
 			records[n].edit_date_yy(date_yy);
 			break;
 		case '3':
-			cout << "请输入维修内容：";
+			cout << "请输入维修内容： ";
 			cin >> detail;
 			records[n].edit_detail(detail);
 			break;
 		case '4':
-			cout << "请输入收费和成本：";
+			cout << "请输入收费和成本： ";
 			cin >> money_income >> money_outcome;
 			records[n].edit_money(money_income, money_outcome);
 			break;
 		case '5':
-			cout << "请输入检修人：";
+			cout << "请输入检修人： ";
 			cin >> people;
 			records[n].edit_people(people);
 			break;
 		case '6':
-			cout << "请输入备注：";
+			cout << "请输入备注： ";
 			cin >> remark;
 			records[n].edit_remark(remark);
 			break;
@@ -111,16 +111,16 @@ void activity_edit(int n)
 			cout << "请输入新的预约时间:";
 			cin >> date_yy;
 			records[n].edit_date_yy(date_yy);
-			cout << "请输入维修内容：";
+			cout << "请输入维修内容： ";
 			cin >> detail;
 			records[n].edit_detail(detail);
-			cout << "请输入收费和成本：";
+			cout << "请输入收费和成本： ";
 			cin >> money_income >> money_outcome;
 			records[n].edit_money(money_income, money_outcome);
-			cout << "请输入检修人：";
+			cout << "请输入检修人： ";
 			cin >> people;
 			records[n].edit_people(people);
-			cout << "请输入备注：";
+			cout << "请输入备注： ";
 			cin >> remark;
 			records[n].edit_remark(remark);
 		case '8':
@@ -130,7 +130,7 @@ void activity_edit(int n)
 	save_all();
 	system("cls");
 	cout << "操作成功完成\n";
-	records[n].show();
+	records[n].show(n);
 	system("pause");
 }
 void activity_delete(int n)
@@ -150,22 +150,44 @@ void activity_delete(int n)
 }
 void activity_finish(int n)
 {
-	date d;
+	
+	int t1, t2, t3;
 	char c;
-	cout << "请输入完成日期：";
-	cin >> d;
-	cout << "确定完成操作了？(y/n)  ";
-	cin >> c;
-	if (c == 'y')
+	cout << "请输入完成日期：(输入0即为今天) ";
+	cin >> t1;
+	if (t1 != 0)
 	{
-		records[n].edit_date_fact(d);
-		records[n].edit_done();
+		cin >> t2 >> t3;
+		date d(t1, t2, t3);
+		cout << "确定完成操作了？(y/n)  ";
+		cin >> c;
+		if (c == 'y')
+		{
+			records[n].edit_date_fact(d);
+			records[n].edit_done();
+		}
+		save_all();
+		system("cls");
+		records[n].show(n);
+		cout << "\n操作已成功完成\n";
+		system("pause");
 	}
-	save_all();
-	system("cls");
-	records[n].show();
-	cout << "\n操作已成功完成\n";
-	system("pause");
+	else
+	{
+		cout << "确定完成操作了？(y/n)  ";
+		cin >> c;
+		if (c == 'y')
+		{
+			records[n].edit_date_fact(today());
+			records[n].edit_done();
+		}
+		save_all();
+		system("cls");
+		records[n].show(n);
+		cout << "\n操作已成功完成\n";
+		system("pause");
+	}
+	
 }
 int operate() //操作起来！
 {
@@ -183,7 +205,7 @@ int operate() //操作起来！
 		return 1;
 	}
 	cout << "1.删除记录   2.修改记录  3.完工登记\n";
-	cout << "请输入你要进行的操作：";
+	cout << "请输入你要进行的操作： ";
 	cin >> t;
 	switch (t)
 	{
@@ -234,9 +256,7 @@ void search_record()
 	{
 		if (records[x].exist(key))
 		{
-			cout << "ID\t：" << x << '\n';
-			records[x].show();
-			cout << '\n';
+			records[x].show(x);
 			continue;
 		}
 	}
@@ -247,8 +267,7 @@ void find_all_record()
 	system("cls");
 	for (int x = 0; x < k; x++)
 	{
-		cout << "ID\t：" << x << '\n';
-		records[x].show();
+		records[x].show(x);
 		cout << '\n';
 	}
 	operate();
@@ -260,8 +279,7 @@ void fix_unfinished()
 	{
 		if (records[x].unfinished())
 		{
-			cout << "ID\t：" << x << '\n';
-			records[x].show();
+			records[x].show(x);
 			cout << '\n';
 		}
 	}
@@ -274,8 +292,7 @@ void fix_overdate()
 	{
 		if (records[x].unfinished() && records[x].overdate(today()))
 		{
-			cout << "ID\t：" << x << '\n';
-			records[x].show();
+			records[x].show(x);
 			cout << '\n';
 		}
 	}
@@ -288,8 +305,7 @@ void fix_two_days()
 	{
 		if (records[x].unfinished() && records[x].overdate(today().tomorrow().tomorrow().tomorrow()))
 		{
-			cout << "ID\t：" << x << '\n';
-			records[x].show();
+			records[x].show(x);
 			cout << '\n';
 		}
 	}
@@ -313,7 +329,7 @@ void intime_service()
 }
 void statistic_income_date()
 {
-	cout << "请输入你要统计的日期：";
+	cout << "请输入你要统计的日期： ";
 	date d;
 	double total_income = 0, total_outcome = 0;
 	int num = 0;
@@ -332,7 +348,7 @@ void statistic_income_date()
 }
 void statistic_income_building()
 {
-	cout << "请输入你要统计的楼：";
+	cout << "请输入你要统计的楼： ";
 	int build;
 	double total_income = 0, total_outcome = 0;
 	int num = 0;
@@ -351,7 +367,7 @@ void statistic_income_building()
 }
 void statistic_income_people()
 {
-	cout << "请输入你要统计的检修员姓名：";
+	cout << "请输入你要统计的检修员姓名： ";
 	string name;
 	double total_income = 0, total_outcome = 0;
 	int num = 0;
@@ -374,7 +390,7 @@ void statistic_income()
 	cout << "1.按天统计\n";
 	cout << "2.按楼统计\n";
 	cout << "3.按检修员统计\n";
-	cout << "请选择统计的维度：";
+	cout << "请选择统计的维度： ";
 	cin >> n;
 	switch (n)
 	{
@@ -398,7 +414,7 @@ int main()
 		cout << "4.预约到期查询\n";
 		cout << "5.高级统计功能\n";
 		cout << "6.退出系统\n";
-		cout << "请输入你要使用的功能：";
+		cout << "请输入你要使用的功能： ";
 		cin >> c;
 		switch (c) {
 		case 1:new_record(); break;

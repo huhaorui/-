@@ -3,7 +3,7 @@
 #include <string>
 class record
 {
-private:
+protected:
 	int num_l, num_f; //楼号，房号
 	date date_yy, date_fact; //预约时间，实际时间
 	string detail; //维修内容
@@ -23,6 +23,7 @@ public:
 	}
 	void save_to_file();
 	void show();
+	void show(int);
 	void edit_num(int, int);
 	void edit_date_yy(date);
 	void edit_date_fact(date);

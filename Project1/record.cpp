@@ -17,21 +17,42 @@ string record::show_in_line()
 }
 void record::show()
 {
-	cout << "位置\t：" << num_l << "楼，" << num_f << "房\n";
-	cout << "预约时间：";
+	cout << "位置\t： " << num_l << "号楼，" << num_f << "房\n";
+	cout << "预约时间： ";
 	date_yy.show();
 	if (done)
 	{
-		cout << "\n完成时间：";
+		cout << "\n完成时间： ";
 		date_fact.show();
 	}
-	cout << "\n维修内容：" << detail << '\n';
-	cout << "收费\t：" << money_income << '\n';
-	cout << "成本\t：" << money_outcome << '\n';
-	cout << "维修员\t：" << people << '\n';
-	cout << "备注\t：" << remark << '\n';
-	cout << "状态\t：";
+	cout << "\n维修内容： " << detail << '\n';
+	cout << "收费\t： " << money_income << '\n';
+	cout << "成本\t： " << money_outcome << '\n';
+	cout << "维修员\t： " << people << '\n';
+	cout << "备注\t： " << remark << '\n';
+	cout << "状态\t： ";
 	if (done) cout << "已完成\n"; else cout << "未完成\n";
+	cout << '\n';
+}
+void record::show(int n)
+{
+	cout << "ID\t： " << n << '\n';
+	cout << "位置\t： " << num_l << "号楼，" << num_f << "房\n";
+	cout << "预约时间： ";
+	date_yy.show();
+	if (done)
+	{
+		cout << "\n完成时间： ";
+		date_fact.show();
+	}
+	cout << "\n维修内容： " << detail << '\n';
+	cout << "收费\t： " << money_income << '\n';
+	cout << "成本\t： " << money_outcome << '\n';
+	cout << "维修员\t： " << people << '\n';
+	cout << "备注\t： " << remark << '\n';
+	cout << "状态\t： ";
+	if (done) cout << "已完成\n"; else cout << "未完成\n";
+	cout << '\n';
 }
 void record::edit_num(int a, int b)
 {
