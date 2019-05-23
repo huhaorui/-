@@ -141,12 +141,16 @@ void activity_delete(int n)
 	if (yesno != 'y')
 		cout << "操作已取消\n";
 	else
+	{
 		for (int x = n; x < k - 1; x++)
 		{
 			records[x] = records[x + 1]; //未来考虑用链表实现
 		}
-	k--;
-	save_all();
+		k--;
+		save_all();
+		cout << "操作已成功完成\n";
+		system("pause");
+	}
 }
 void activity_finish(int n)
 {
@@ -252,15 +256,23 @@ void search_record()
 	cout << "请输入你要查找的关键词\n";
 	cin >> key;
 	system("cls");
+	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
 		if (records[x].exist(key))
 		{
 			records[x].show(x);
+			n++;
 			continue;
 		}
 	}
-	operate();
+	if (n != 0)
+		operate();
+	else
+	{
+		cout << "没有符合要求的记录\n";
+		system("pause");
+	}
 }
 void find_all_record()
 {
@@ -270,46 +282,76 @@ void find_all_record()
 		records[x].show(x);
 		cout << '\n';
 	}
-	operate();
+	if (k != 0) 
+		operate();
+	else
+	{
+		cout << "没有符合要求的记录\n";
+		system("pause");
+	}
 }
 void fix_unfinished()
 {
 	system("cls");
+	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
 		if (records[x].unfinished())
 		{
+			n++;
 			records[x].show(x);
 			cout << '\n';
 		}
 	}
-	operate();
+	if (n != 0)
+		operate();
+	else
+	{
+		cout << "没有符合要求的记录\n";
+		system("pause");
+	}
 }
 void fix_overdate()
 {
 	system("cls");
+	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
 		if (records[x].unfinished() && records[x].overdate(today()))
 		{
 			records[x].show(x);
 			cout << '\n';
+			n++;
 		}
 	}
-	operate();
+	if (n != 0)
+		operate();
+	else
+	{
+		cout << "没有符合要求的记录\n";
+		system("pause");
+	}
 }
 void fix_two_days()
 {
 	system("cls");
+	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
 		if (records[x].unfinished() && records[x].overdate(today().tomorrow().tomorrow().tomorrow()))
 		{
+			n++;
 			records[x].show(x);
 			cout << '\n';
 		}
 	}
-	operate();
+	if (n != 0)
+		operate();
+	else
+	{
+		cout << "没有符合要求的记录\n";
+		system("pause");
+	}
 }
 void intime_service()
 {
@@ -408,12 +450,14 @@ int main()
 		int c;
 		save_all();
 		init();
-		cout << "1.新增记录\n";
-		cout << "2.搜索记录\n";
-		cout << "3.查看所有记录\n";
-		cout << "4.预约到期查询\n";
-		cout << "5.高级统计功能\n";
-		cout << "6.退出系统\n";
+		cout << "┌──────────────────┐\n";
+		cout << "│ 1.新增记录       │\n";
+		cout << "│ 2.搜索记录       │\n";
+		cout << "│ 3.查看所有记录   │\n";
+		cout << "│ 4.预约到期查询   │\n";
+		cout << "│ 5.高级统计功能   │\n";
+		cout << "│ 6.退出系统       │\n";
+		cout << "└──────────────────┘\n";
 		cout << "请输入你要使用的功能： ";
 		cin >> c;
 		switch (c) {

@@ -52,7 +52,7 @@ void record::show(int n)
 	cout << "备注\t： " << remark << '\n';
 	cout << "状态\t： ";
 	if (done) cout << "已完成\n"; else cout << "未完成\n";
-	cout << '\n';
+	cout << "────────────────────────────────────────────\n";
 }
 void record::edit_num(int a, int b)
 {
