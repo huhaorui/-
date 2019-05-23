@@ -682,7 +682,7 @@ void statistic_income()//傻子安全
 int main()//傻子安全
 {
 	init();
-	cout << "欢迎使用物业管理维修系统\n";
+	cout << "欢迎使用物业维修管理系统\n";
 	while (true)
 	{
 		string c;
