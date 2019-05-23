@@ -440,11 +440,12 @@ void new_record()//傻子安全
 	cin >> people;
 	cout << "请输入备注:\n";
 	cin >> remark;
-	record new_record(to_int(num_building), to_int(num_house), date_yy, date_fact, detail, to_double(money_income), to_double(money_outcome), people, remark);
-	new_record.save_to_file();
+	records[k]=record(to_int(num_building), to_int(num_house), date_yy, date_fact, detail, to_double(money_income), to_double(money_outcome), people, remark);
 	cls();
 	cout << "保存成功!记录如下：\n";
-	new_record.show();
+	records[k].show();
+	k++;
+	save_all();
 	init();
 	pause();
 }

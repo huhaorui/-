@@ -43,3 +43,7 @@
 *.idb
 *.pdb
 *.ilk
+*.idb
+Project1/x64/Debug/vc142.idb
+*.pdb
+Project1/x64/Debug/vc142.pdb
