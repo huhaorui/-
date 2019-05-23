@@ -38,3 +38,8 @@
 *.ilk
 *.pdb
 *.ipch
+*.opendb
+*.pdb
+*.idb
+*.pdb
+*.ilk
