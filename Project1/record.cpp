@@ -17,7 +17,7 @@ string record::show_in_line()
 }
 void record::show()
 {
-	cout << "位置\t： " << num_l << "号楼，" << num_f << "房\n";
+	cout << "位置\t： " << num_building << "号楼，" << num_house << "房\n";
 	cout << "预约时间： ";
 	date_yy.show();
 	if (done)
@@ -37,7 +37,7 @@ void record::show()
 void record::show(int n)
 {
 	cout << "ID\t： " << n << '\n';
-	cout << "位置\t： " << num_l << "号楼，" << num_f << "房\n";
+	cout << "位置\t： " << num_building << "号楼，" << num_house << "房\n";
 	cout << "预约时间： ";
 	date_yy.show();
 	if (done)
@@ -56,8 +56,8 @@ void record::show(int n)
 }
 void record::edit_num(int a, int b)
 {
-	num_l = a;
-	num_f = b;
+	num_building = a;
+	num_house = b;
 }
 void record::edit_date_yy(date d)
 {
@@ -92,7 +92,7 @@ void record::save_to_file()
 {
 	ofstream outfile;
 	outfile.open("database.dat", ios::app);
-	outfile << num_l << ' ' << num_f << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_income << ' ' << money_outcome << ' ' << people << ' ' << remark << ' ' << done << '\n';
+	outfile << num_building << ' ' << num_house << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_income << ' ' << money_outcome << ' ' << people << ' ' << remark << ' ' << done << '\n';
 	outfile.close();
 }
 bool record::unfinished()
@@ -110,8 +110,8 @@ bool record::day_fact_is(date d)
 }
 record::record()
 {
-	num_l = 0;
-	num_f = 0;
+	num_building = 0;
+	num_house = 0;
 	detail = "";
 	money_income = 0;
 	money_outcome = 0;
@@ -119,10 +119,10 @@ record::record()
 	remark = "";
 	done = 0;
 }
-record::record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
+record::record(int s_num_building, int s_num_house, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
 {
-	num_l = s_num_l;
-	num_f = s_num_f;
+	num_building = s_num_building;
+	num_house = s_num_house;
 	date_yy = s_date_yy;
 	date_fact = s_date_fact;
 	detail = s_detail;
@@ -133,10 +133,10 @@ record::record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, strin
 	done = s_done;
 }
 
-void record::set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
+void record::set(int s_num_building, int s_num_house, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
 {
-	num_l = s_num_l;
-	num_f = s_num_f;
+	num_building = s_num_building;
+	num_house = s_num_house;
 	date_yy = s_date_yy;
 	date_fact = s_date_fact;
 	detail = s_detail;
@@ -151,8 +151,8 @@ bool record::exist(string s)
 	if (detail.find(s) != string::npos) return true;
 	if (people.find(s) != string::npos) return true;
 	if (remark.find(s) != string::npos) return true;
-	if (toString(num_l).find(s) != string::npos) return true;
-	if (toString(num_f).find(s) != string::npos) return true;
+	if (toString(num_building).find(s) != string::npos) return true;
+	if (toString(num_house).find(s) != string::npos) return true;
 	if (toString(money_income).find(s) != string::npos) return true;
 	if (toString(money_outcome).find(s) != string::npos) return true;
 	return false;

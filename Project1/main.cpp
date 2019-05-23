@@ -20,6 +20,37 @@ date today()
 	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
 	return d;
 }
+bool is_num(char c)
+{
+	if (c <= '9' && c >= '0')
+		return true;
+	else
+		return false;
+}
+bool is_num(string s)
+{
+	for (int x = 0; x < s.length(); x++)
+	{
+		if (!is_num(s[x])) return false;
+	}
+	return true;
+}
+int to_int(string s)
+{
+	int n;
+	stringstream sstr;
+	sstr << s;
+	sstr >> n;
+	return n;
+}
+double to_double(string s)
+{
+	double n;
+	stringstream sstr;
+	sstr << s;
+	sstr >> n;
+	return n;
+}
 date_time now()
 {
 	tm t;
@@ -30,10 +61,121 @@ date_time now()
 	date_time dt(d, t.tm_hour, t.tm_min, t.tm_sec);
 	return dt;
 }
+void edit_num(int n)
+{
+	string num_building, num_house;
+	cout << "请输入新的楼号与房号:";
+	cin >> num_building;
+	while (!is_num(num_building))
+	{
+		cout << "楼号输入有误，请重新输入:";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> num_building;
+	}
+	cin >> num_house;
+	while (!is_num(num_house))
+	{
+		cout << "房号输入有误，请重新输入:";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> num_house;
+	}
+	records[n].edit_num(to_int(num_building), to_int(num_house));
+}
+void edit_date(int n)
+{
+	string day_later;
+	cout << "请输入新的预约时间:（输入一个小于10的数n，表示n天后）";
+	cin >> day_later;
+	while (!is_num(day_later))
+	{
+		cout << "输入有误，请重新输入";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> day_later;
+	}
+	if (to_int(day_later) < 10)
+	{
+		date date_tmp = today();
+		for (int x = 0; x < to_int(day_later); x++)
+		{
+			date_tmp = date_tmp.tomorrow();
+		}
+		records[n].edit_date_yy(date_tmp);
+	}
+	else
+	{
+		int year = to_int(day_later);
+		string month, day;
+		cin >> month;
+		while (!is_num(month))
+		{
+			cout << "月份输入有误，请重新输入:";
+			cin.ignore(100, '\n');//清空cin流
+			cin >> month;
+		}
+		cin >> day;
+		while (!is_num(day))
+		{
+			cout << "日期输入有误，请重新输入:";
+			cin.ignore(100, '\n');//清空cin流
+			cin >> day;
+		}
+		records[n].edit_date_yy(date(year, to_int(month), to_int(day)));
+	}
+}
+void edit_detail(int n)
+{
+	string detail;
+	cout << "请输入维修内容： ";
+	cin >> detail;
+	records[n].edit_detail(detail);
+}
+void edit_money(int n)
+{
+	string money_income, money_outcome;
+	cout << "请输入收费和成本： ";
+	cin >> money_income;
+	while (!is_num(money_income))
+	{
+		cout << "收费输入有误，请重新输入:";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> money_income;
+	}
+	cin >> money_outcome;
+	while (!is_num(money_outcome))
+	{
+		cout << "成本输入有误，请重新输入:";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> money_outcome;
+	}
+	records[n].edit_money(to_double(money_income), to_double(money_outcome));
+}
+void edit_people(int n)
+{
+	string people;
+	cout << "请输入检修人： ";
+	cin >> people;
+	records[n].edit_people(people);
+}
+void edit_remark(int n)
+{
+	string remark;
+	cout << "请输入备注： ";
+	cin >> remark;
+	records[n].edit_remark(remark);
+}
+void edit_all(int n)
+{
+	edit_num(n);
+	edit_date(n);
+	edit_detail(n);
+	edit_money(n);
+	edit_people(n);
+	edit_remark(n);
+}
 void init()
 {
 	k = 0;
-	int num_l, num_f; //楼号，房号
+	int num_building, num_house; //楼号，房号
 	date date_yy, date_fact; //预约时间，实际时间
 	string detail; //维修内容
 	double money_income, money_outcome; //收费，成本
@@ -42,9 +184,9 @@ void init()
 	int done;
 	ifstream infile;
 	infile.open("database.dat", ios::in);
-	while (infile >> num_l >> num_f >> date_yy >> date_fact >> detail >> money_income >> money_outcome >> people >> remark >> done)
+	while (infile >> num_building >> num_house >> date_yy >> date_fact >> detail >> money_income >> money_outcome >> people >> remark >> done)
 	{
-		records[k].set(num_l, num_f, date_yy, date_fact, detail, money_income, money_outcome, people, remark, done);
+		records[k].set(num_building, num_house, date_yy, date_fact, detail, money_income, money_outcome, people, remark, done);
 		k++;
 	}
 	infile.close();
@@ -76,99 +218,24 @@ void activity_edit(int n)
 	cin >> op;
 	for (int x = 0; x < op.length(); x++)
 	{
-		int num_l, num_f; //楼号，房号
+		string num_building, num_house; //楼号，房号
 		date date_yy, date_fact; //预约时间，实际时间
 		string detail; //维修内容
-		double money_income, money_outcome; //收费，成本
+		string money_income, money_outcome; //收费，成本
 		string people; //检修人
 		string remark; //备注	
+		string day_later;
 		system("cls");
 		records[n].show(n);
 		switch (op[x])
 		{
-		case '1':
-			cout << "请输入新的楼号与房号:";
-			cin >> num_l >> num_f;
-			records[n].edit_num(num_l, num_f);
-			break;
-		case '2':
-			cout << "请输入新的预约时间:（输入一个小于10的数n，表示n天后）";
-			int day_later;
-			cin >> day_later;
-			if (day_later < 10)
-			{
-				date date_tmp = today();
-				for (int x = 0; x < day_later; x++)
-				{
-					date_tmp = date_tmp.tomorrow();
-				}
-				records[n].edit_date_yy(date_tmp);
-			}
-			else
-			{
-				int year = day_later;
-				int month, day;
-				cin >> month >> day;
-				records[n].edit_date_yy(date(year, month, day));
-			}
-			break;
-		case '3':
-			cout << "请输入维修内容： ";
-			cin >> detail;
-			records[n].edit_detail(detail);
-			break;
-		case '4':
-			cout << "请输入收费和成本： ";
-			cin >> money_income >> money_outcome;
-			records[n].edit_money(money_income, money_outcome);
-			break;
-		case '5':
-			cout << "请输入检修人： ";
-			cin >> people;
-			records[n].edit_people(people);
-			break;
-		case '6':
-			cout << "请输入备注： ";
-			cin >> remark;
-			records[n].edit_remark(remark);
-			break;
-		case '7':
-			cout << "请输入新的楼号与房号:";
-			cin >> num_l >> num_f;
-			records[n].edit_num(num_l, num_f);
-			cout << "请输入新的预约时间:（输入一个小于10的数n，表示n天后）";
-			int day_later2;
-			cin >> day_later2;
-			if (day_later2 < 10)
-			{
-				date date_tmp = today();
-				for (int x = 0; x < day_later2; x++)
-				{
-					date_tmp = date_tmp.tomorrow();
-				}
-				records[n].edit_date_yy(date_tmp);
-			}
-			else
-			{
-				int year = day_later2;
-				int month, day;
-				cin >> month >> day;
-				records[n].edit_date_yy(date(year, month, day));
-			}
-			cout << "请输入维修内容： ";
-			cin >> detail;
-			records[n].edit_detail(detail);
-			cout << "请输入收费和成本： ";
-			cin >> money_income >> money_outcome;
-			records[n].edit_money(money_income, money_outcome);
-			cout << "请输入检修人： ";
-			cin >> people;
-			records[n].edit_people(people);
-			cout << "请输入备注： ";
-			cin >> remark;
-			records[n].edit_remark(remark);
-		case '8':
-		default:;
+		case '1':edit_num(n); break;
+		case '2':edit_date(n);break;
+		case '3':edit_detail(n); break;
+		case '4':edit_money(n); break;
+		case '5':edit_people(n); break;
+		case '6':edit_remark(n); break;
+		case '7':edit_all(n); break;
 		}
 	}
 	system("cls");
@@ -267,14 +334,14 @@ int operate() //操作起来！
 void new_record()
 {
 	system("cls");
-	int num_l, num_f; //楼号，房号
+	int num_building, num_house; //楼号，房号
 	date date_yy, date_fact; //预约时间，实际时间
 	string detail; //维修内容
 	double money_income, money_outcome; //收费，成本
 	string people; //检修人
 	string remark; //备注	
 	cout << "请输入楼号和房号\n";
-	cin >> num_l >> num_f;
+	cin >> num_building >> num_house;
 	cout << "请输入预约时间（输入一个小于10的数n，表示n天后）\n";
 	int day_later;
 	cin >> day_later;
@@ -302,7 +369,7 @@ void new_record()
 	cin >> people;
 	cout << "请输入备注:\n";
 	cin >> remark;
-	record new_record(num_l, num_f, date_yy, date_fact, detail, money_income, money_outcome, people, remark);
+	record new_record(num_building, num_house, date_yy, date_fact, detail, money_income, money_outcome, people, remark);
 	new_record.save_to_file();
 	system("cls");
 	cout << "保存成功!记录如下：\n";
@@ -458,7 +525,7 @@ void statistic_income_building()
 	cin >> build;
 	for (int x = 0; x < k; x++)
 	{
-		if (records[x].num_l_is(build) && !records[x].unfinished())
+		if (records[x].num_building_is(build) && !records[x].unfinished())
 		{
 			num++;
 			total_income += records[x].get_income();

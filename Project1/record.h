@@ -4,7 +4,7 @@
 class record
 {
 protected:
-	int num_l, num_f; //楼号，房号
+	int num_building, num_house; //楼号，房号
 	date date_yy, date_fact; //预约时间，实际时间
 	string detail; //维修内容
 	double money_income, money_outcome; //收费，成本
@@ -35,9 +35,9 @@ public:
 	bool unfinished();
 	bool overdate(date);
 	bool day_fact_is(date);
-	bool num_l_is(int n)
+	bool num_building_is(int n)
 	{
-		if (n == num_l) return true; else return false;
+		if (n == num_building) return true; else return false;
 	}
 	bool name_is(string s)
 	{
@@ -52,9 +52,9 @@ public:
 	{
 		return money_outcome;
 	}
-	void set(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done = 0);
+	void set(int s_num_building, int s_num_house, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done = 0);
 	record();
-	record(int s_num_l, int s_num_f, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done = 0);
+	record(int s_num_building, int s_num_house, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done = 0);
 	~record();
 };
 
