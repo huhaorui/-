@@ -11,6 +11,15 @@
 using namespace std;
 record records[1000];
 int k = 0;//总的记录数
+//傻子安全的定义：cin流只会进入string中，如果不符合要求，就会要求重输
+void pause()
+{
+	system("pause");
+}
+void cls()
+{
+	system("cls");
+}
 date today()
 {
 	tm t;
@@ -211,7 +220,7 @@ void save_all()//傻子安全
 void activity_edit(int n)//傻子安全
 {
 	string op;
-	system("cls");
+	cls();
 	records[n].show(n);
 	cout << "\n请选择你要修改的项目\n";
 	cout << "1.楼房号码\n2.预约时间\n3.维修内容\n4.收费与成本\n5.检修人\n6.备注\n7.全部\n8.退出\n";
@@ -219,7 +228,7 @@ void activity_edit(int n)//傻子安全
 	cin >> op;
 	for (int x = 0; x < op.length(); x++)
 	{
-		system("cls");
+		cls();
 		records[n].show(n);
 		switch (op[x])
 		{
@@ -232,19 +241,22 @@ void activity_edit(int n)//傻子安全
 		case '7':edit_all(n); break;
 		}
 	}
-	system("cls");
+	cls();
 	records[n].show(n);
 	save_all();
 	cout << "操作成功完成\n";
-	system("pause");
+	pause();
 }
 void activity_delete(int n)//傻子安全
 {
 	cout << "这个操作不可逆，确认删除这条记录吗？(y/n)\n";
-	char yesno;
+	string yesno;
 	cin >> yesno;
-	if (yesno != 'y')
+	if (yesno[0] != 'y')
+	{
 		cout << "操作已取消\n";
+		pause();
+	}
 	else
 	{
 		for (int x = n; x < k - 1; x++)
@@ -254,15 +266,14 @@ void activity_delete(int n)//傻子安全
 		k--;
 		save_all();
 		cout << "操作已成功完成\n";
-		system("pause");
+		pause();
 	}
 }
 void activity_finish(int n)//傻子安全
 {
-	char c;
 	string day_later;
 	date date_tmp = today();
-	cout << "请输入新的预约时间:（输入一个小于10的数n，表示n天后）";
+	cout << "请输入时间:（输入一个小于10的数n，表示n天后）";
 	cin >> day_later;
 	while (!is_num(day_later))
 	{
@@ -297,24 +308,25 @@ void activity_finish(int n)//傻子安全
 		}
 		date_tmp = date(year, to_int(month), to_int(day));
 	}
+	string c;
 	cout << "确定完成操作了？(y/n)  ";
 	cin >> c;
-	if (c == 'y')
+	if (c[0] == 'y')
 	{
 		records[n].edit_date_fact(date_tmp);
 		records[n].edit_done();
 	}
 	save_all();
-	system("cls");
+	cls();
 	records[n].show(n);
 	cout << "\n操作已成功完成\n";
-	system("pause");
+	pause();
 }
 int operate() //操作起来！//傻子安全
 {
 	int n;
 	string n_to_judge;
-	char t;
+	string t;
 	cout << "请输入你要操作的ID：输入-1退出\n";
 	cin >> n_to_judge;
 	while (!is_num(n_to_judge))
@@ -330,13 +342,13 @@ int operate() //操作起来！//傻子安全
 	if (n >= k || n < 0)
 	{
 		cout << "输入错误\n";
-		system("pause");
+		pause();
 		return 1;
 	}
 	cout << "1.删除记录   2.修改记录  3.完工登记\n";
 	cout << "请输入你要进行的操作： ";
 	cin >> t;
-	switch (t)
+	switch (t[0])
 	{
 	case '1':activity_delete(n); break;
 	case '2':activity_edit(n); break;
@@ -344,59 +356,104 @@ int operate() //操作起来！//傻子安全
 	}
 	return 0;
 }
-void new_record()//傻子不安全
+void new_record()//傻子安全
 {
-	system("cls");
-	int num_building, num_house; //楼号，房号
+	cls();
+	string num_building, num_house; //楼号，房号
 	date date_yy, date_fact; //预约时间，实际时间
 	string detail; //维修内容
-	double money_income, money_outcome; //收费，成本
+	string money_income, money_outcome; //收费，成本
 	string people; //检修人
 	string remark; //备注	
 	cout << "请输入楼号和房号\n";
-	cin >> num_building >> num_house;
-	cout << "请输入预约时间（输入一个小于10的数n，表示n天后）\n";
-	int day_later;
+	cin >> num_building;
+	while (!is_num(num_building))
+	{
+		cout << "楼号输入有误，请重新输入:";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> num_building;
+	}
+	cin >> num_house;
+	while (!is_num(num_house))
+	{
+		cout << "房号输入有误，请重新输入:";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> num_house;
+	}
+	string day_later;
+	cout << "请输入预约时间:（输入一个小于10的数n，表示n天后）";
 	cin >> day_later;
-	if (day_later < 10)
+	while (!is_num(day_later))
+	{
+		cout << "输入有误，请重新输入";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> day_later;
+	}
+	if (to_int(day_later) < 10)
 	{
 		date date_tmp = today();
-		for (int x = 0; x < day_later; x++)
+		for (int x = 0; x < to_int(day_later); x++)
 		{
 			date_tmp = date_tmp.tomorrow();
 		}
-		date_yy=date_tmp;
+		date_yy = date_tmp;
 	}
 	else
 	{
-		int year = day_later;
-		int month, day;
-		cin >> month >> day;
-		date_yy=(date(year, month, day));
+		int year = to_int(day_later);
+		string month, day;
+		cin >> month;
+		while (!is_num(month))
+		{
+			cout << "月份输入有误，请重新输入:";
+			cin.ignore(100, '\n');//清空cin流
+			cin >> month;
+		}
+		cin >> day;
+		while (!is_num(day))
+		{
+			cout << "日期输入有误，请重新输入:";
+			cin.ignore(100, '\n');//清空cin流
+			cin >> day;
+		}
+		date_yy=date(year, to_int(month), to_int(day));
 	}
 	cout << "请输入维修内容\n";
 	cin >> detail;
-	cout << "请输入收费与成本价\n";
-	cin >> money_income >> money_outcome;
+	cout << "请输入收费与成本\n";
+	cin >> money_income;
+	while (!is_num(money_income))
+	{
+		cout << "收费输入有误，请重新输入:";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> money_income;
+	}
+	cin >> money_outcome;
+	while (!is_num(money_outcome))
+	{
+		cout << "成本输入有误，请重新输入:";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> money_outcome;
+	}
 	cout << "请分配检修员:\n";
 	cin >> people;
 	cout << "请输入备注:\n";
 	cin >> remark;
-	record new_record(num_building, num_house, date_yy, date_fact, detail, money_income, money_outcome, people, remark);
+	record new_record(to_int(num_building), to_int(num_house), date_yy, date_fact, detail, to_double(money_income), to_double(money_outcome), people, remark);
 	new_record.save_to_file();
-	system("cls");
+	cls();
 	cout << "保存成功!记录如下：\n";
 	new_record.show();
 	init();
-	system("pause");
+	pause();
 }
 void search_record()//傻子安全
 {
-	system("cls");
+	cls();
 	string key;
 	cout << "请输入你要查找的关键词\n";
 	cin >> key;
-	system("cls");
+	cls();
 	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
@@ -412,12 +469,12 @@ void search_record()//傻子安全
 	else
 	{
 		cout << "没有符合要求的记录\n";
-		system("pause");
+		pause();
 	}
 }
 void find_all_record()//傻子安全
 {
-	system("cls");
+	cls();
 	for (int x = 0; x < k; x++)
 	{
 		records[x].show(x);
@@ -428,12 +485,12 @@ void find_all_record()//傻子安全
 	else
 	{
 		cout << "没有符合要求的记录\n";
-		system("pause");
+		pause();
 	}
 }
 void fix_unfinished()//傻子安全
 {
-	system("cls");
+	cls();
 	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
@@ -449,12 +506,12 @@ void fix_unfinished()//傻子安全
 	else
 	{
 		cout << "没有符合要求的记录\n";
-		system("pause");
+		pause();
 	}
 }
 void fix_overdate()//傻子安全
 {
-	system("cls");
+	cls();
 	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
@@ -470,12 +527,12 @@ void fix_overdate()//傻子安全
 	else
 	{
 		cout << "没有符合要求的记录\n";
-		system("pause");
+		pause();
 	}
 }
 void fix_two_days()//傻子安全
 {
-	system("cls");
+	cls();
 	int n = 0;
 	for (int x = 0; x < k; x++)
 	{
@@ -491,32 +548,62 @@ void fix_two_days()//傻子安全
 	else
 	{
 		cout << "没有符合要求的记录\n";
-		system("pause");
+		pause();
 	}
 }
-void intime_service()//傻子不安全
+void intime_service()//傻子安全
 {
-	system("cls");
+	cls();
 	cout << "1.显示所有未完成的维修\n";
 	cout << "2.显示超期未完成的维修\n";
 	cout << "3.显示两天内需要完成的维修\n";
 	cout << "请输入你要显示的内容\n";
-	int t;
-	cin >> t;
+	string t_todo;
+	cin >> t_todo;
+	char t = t_todo[0];
 	switch (t)
 	{
-	case 1:fix_unfinished(); break;
-	case 2:fix_overdate(); break;
-	case 3:fix_two_days(); break;
+	case '1':fix_unfinished(); break;
+	case '2':fix_overdate(); break;
+	case '3':fix_two_days(); break;
 	}
 }
-void statistic_income_date()//傻子不安全
+void statistic_income_date()//傻子安全
 {
-	cout << "请输入你要统计的日期： ";
+	cout << "请输入你要统计的日期，输入0统计今天：";
 	date d;
 	double total_income = 0, total_outcome = 0;
 	int num = 0;
-	cin >> d;
+	string day_later;
+	cin >> day_later;
+	while (!is_num(day_later))
+	{
+		cout << "输入有误，请重新输入";
+		cin.ignore(100, '\n');//清空cin流
+		cin >> day_later;
+	}
+	if (to_int(day_later) == 0) 
+		d = today();
+	else
+	{
+		int year = to_int(day_later);
+		string month, day;
+		cin >> month;
+		while (!is_num(month))
+		{
+			cout << "月份输入有误，请重新输入:";
+			cin.ignore(100, '\n');//清空cin流
+			cin >> month;
+		}
+		cin >> day;
+		while (!is_num(day))
+		{
+			cout << "日期输入有误，请重新输入:";
+			cin.ignore(100, '\n');//清空cin流
+			cin >> day;
+		}
+		d = date(year, to_int(month), to_int(day));
+	}
 	for (int x = 0; x < k; x++)
 	{
 		if (records[x].day_fact_is(d) && !records[x].unfinished())
@@ -526,16 +613,24 @@ void statistic_income_date()//傻子不安全
 			total_outcome += records[x].get_outcome();
 		}
 	}
-	cout << "\n在这一天里，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
-	system("pause");
+	cout << "\n在";
+	d.show();
+	cout<<"，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
+	pause();
 }
-void statistic_income_building()//傻子不安全
+void statistic_income_building()//傻子安全
 {
 	cout << "请输入你要统计的楼： ";
-	int build;
+	string build_to_judge;
 	double total_income = 0, total_outcome = 0;
 	int num = 0;
-	cin >> build;
+	cin >> build_to_judge;
+	while (!is_num(build_to_judge))
+	{
+		cout << "输入错误，请重输:";
+		cin >> build_to_judge;
+	}
+	int build = to_int(build_to_judge);
 	for (int x = 0; x < k; x++)
 	{
 		if (records[x].num_building_is(build) && !records[x].unfinished())
@@ -546,7 +641,7 @@ void statistic_income_building()//傻子不安全
 		}
 	}
 	cout << "\n对这栋楼，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
-	system("pause");
+	pause();
 }
 void statistic_income_people()//傻子安全
 {
@@ -565,30 +660,30 @@ void statistic_income_people()//傻子安全
 		}
 	}
 	cout << '\n' << name << "总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
-	system("pause");
+	pause();
 }
-void statistic_income()//傻子不安全
+void statistic_income()//傻子安全
 {
-	int n;
+	string n;
 	cout << "1.按天统计\n";
 	cout << "2.按楼统计\n";
 	cout << "3.按检修员统计\n";
 	cout << "请选择统计的维度： ";
 	cin >> n;
-	switch (n)
+	switch (n[0])
 	{
-	case 1: statistic_income_date(); break;
-	case 2: statistic_income_building(); break;
-	case 3: statistic_income_people(); break;
+	case '1': statistic_income_date(); break;
+	case '2': statistic_income_building(); break;
+	case '3': statistic_income_people(); break;
 	}
 }
-int main()//傻子不安全
+int main()//傻子安全
 {
 	init();
 	cout << "欢迎使用物业管理维修系统\n";
 	while (true)
 	{
-		int c;
+		string c;
 		save_all();
 		init();
 		now().show();
@@ -603,7 +698,7 @@ int main()//傻子不安全
 		cout << "└──────────────────┘\n";
 		cout << "请输入你要使用的功能： ";
 		cin >> c;
-		switch (c) {
+		switch (c[0]-'0') {
 		case 1:new_record(); break;
 		case 2:search_record(); break;
 		case 3:find_all_record(); break;
@@ -613,6 +708,6 @@ int main()//傻子不安全
 		default:
 			cout << "输入错误，请重新输入\n";
 		}
-		system("cls");
+		cls();
 	}
 }
