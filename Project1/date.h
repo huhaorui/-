@@ -11,6 +11,7 @@ public:
 	{
 		cout << year << '/' << month << '/' << day;
 	}
+	string out();
 	date tomorrow();
 	friend bool operator >(date& d1, date& d2);
 	friend bool operator <(date& d1, date& d2);

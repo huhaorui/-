@@ -35,3 +35,6 @@
 *.db
 *.suo
 *.ipch
+*.ilk
+*.pdb
+*.ipch

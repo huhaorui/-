@@ -12,7 +12,8 @@ string toString(int n)
 }
 string record::show_in_line()
 {
-	string s;
+	string s="";
+	s = to_string(num_building) + ' ' + to_string(num_house) + ' ' + date_yy.out() + ' ' + date_fact.out() + ' ' + detail + ' ' + to_string(money_income) + ' ' + to_string(money_outcome) + ' ' + people + ' ' + remark + ' ' + to_string(done) + '\n';
 	return s;
 }
 void record::show()

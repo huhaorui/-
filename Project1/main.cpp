@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <string>
 using namespace std;
-record records[10000];
+record records[100000];
 int k = 0;//总的记录数
 //傻子安全的定义：cin流只会进入string中，如果不符合要求，就会要求重输
 void pause()
@@ -211,11 +211,11 @@ void save_all()//傻子安全
 	sort(records, records + k, cmp);
 	ofstream outfile;
 	outfile.open("database.dat", ios::out);
-	outfile.close();
 	for (int x = 0; x < k; x++)
 	{
-		records[x].save_to_file();
+		outfile << records[x].show_in_line();
 	}
+	outfile.close();
 	init();
 }
 void activity_edit(int n)//傻子安全

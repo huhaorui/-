@@ -1,4 +1,5 @@
 #include "date.h"
+#include <sstream>
 int day_of_month(int year, int month)
 {
 	if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) return 31;
@@ -59,6 +60,11 @@ bool operator ==(date & d1, date & d2)
 		return true;
 	else
 		return false;
+}
+string date::out()
+{
+	string s = to_string(year) + ' ' + to_string(month) + ' ' + to_string(day);
+	return s;
 }
 date date::tomorrow()
 {
