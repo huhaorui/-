@@ -1,13 +1,14 @@
 #include "date_time.h"
 
 
-
-date_time::date_time(int h,int m,int s)
+void date_time::show()
 {
-	hour = h;
-	minute = m;
-	second = s;
+	cout << "ÏÖÔÚÊÇ ";
+	date::show();
+	cout << " " << hour << ":" << minute << ":" << second << "\n";
 }
+date_time::date_time(date d, int h, int m, int s):date(d),hour(h),minute(m),second(s)
+{}
 
 
 date_time::~date_time()

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "record.h"
+#include "date_time.h"
 #include <cstdio>
 #include <fstream>
 #include <conio.h>
@@ -17,6 +18,16 @@ date today()
 	localtime_s(&t, &now);
 	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
 	return d;
+}
+date_time now()
+{
+	tm t;
+	time_t now;
+	time(&now);
+	localtime_s(&t, &now);
+	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
+	date_time dt(d, t.tm_hour, t.tm_min, t.tm_sec);
+	return dt;
 }
 void init()
 {
@@ -450,6 +461,8 @@ int main()
 		int c;
 		save_all();
 		init();
+		now().show();
+		cout << '\n';
 		cout << "┌──────────────────┐\n";
 		cout << "│ 1.新增记录       │\n";
 		cout << "│ 2.搜索记录       │\n";
