@@ -29,19 +29,20 @@ date today()
 	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
 	return d;
 }
-bool is_num(char c)
+bool is_proper_num(char c)
 {
 	if (c <= '9' && c >= '0')
 		return true;
 	else
 		return false;
 }
-bool is_num(string s)
+bool is_proper_num(string s)
 {
-	if (!is_num(s[0]) && s[0] != '-') return false;
+	if (s.length() > 8) return false;
+	if (!is_proper_num(s[0]) && s[0] != '-') return false;
 	for (int x = 1; x < s.length(); x++)
 	{
-		if (!is_num(s[x]) && s[x] != '.') return false;
+		if (!is_proper_num(s[x]) && s[x] != '.') return false;
 	}
 	return true;
 }
@@ -76,14 +77,14 @@ void edit_num(int n)//傻子安全
 	string num_building, num_house;
 	cout << "请输入新的楼号与房号:";
 	cin >> num_building;
-	while (!is_num(num_building))
+	while (!is_proper_num(num_building))
 	{
 		cout << "楼号输入有误，请重新输入:";
 		cin.ignore(100, '\n');//清空cin流
 		cin >> num_building;
 	}
 	cin >> num_house;
-	while (!is_num(num_house))
+	while (!is_proper_num(num_house))
 	{
 		cout << "房号输入有误，请重新输入:";
 		cin.ignore(100, '\n');//清空cin流
@@ -96,7 +97,7 @@ void edit_date(int n)//傻子安全
 	string day_later;
 	cout << "请输入新的预约时间:（输入一个小于10的数n，表示n天后）";
 	cin >> day_later;
-	while (!is_num(day_later))
+	while (!is_proper_num(day_later))
 	{
 		cout << "输入有误，请重新输入";
 		cin.ignore(100, '\n');//清空cin流
@@ -116,14 +117,14 @@ void edit_date(int n)//傻子安全
 		int year = to_int(day_later);
 		string month, day;
 		cin >> month;
-		while (!is_num(month))
+		while (!is_proper_num(month))
 		{
 			cout << "月份输入有误，请重新输入:";
 			cin.ignore(100, '\n');//清空cin流
 			cin >> month;
 		}
 		cin >> day;
-		while (!is_num(day))
+		while (!is_proper_num(day))
 		{
 			cout << "日期输入有误，请重新输入:";
 			cin.ignore(100, '\n');//清空cin流
@@ -144,14 +145,14 @@ void edit_money(int n)//傻子安全
 	string money_income, money_outcome;
 	cout << "请输入收费和成本： ";
 	cin >> money_income;
-	while (!is_num(money_income))
+	while (!is_proper_num(money_income))
 	{
 		cout << "收费输入有误，请重新输入:";
 		cin.ignore(100, '\n');//清空cin流
 		cin >> money_income;
 	}
 	cin >> money_outcome;
-	while (!is_num(money_outcome))
+	while (!is_proper_num(money_outcome))
 	{
 		cout << "成本输入有误，请重新输入:";
 		cin.ignore(100, '\n');//清空cin流
@@ -276,7 +277,7 @@ void activity_finish(int n)//傻子安全
 	date date_tmp = today();
 	cout << "请输入时间:（输入一个小于10的数n，表示n天后）";
 	cin >> day_later;
-	while (!is_num(day_later))
+	while (!is_proper_num(day_later))
 	{
 		cout << "输入有误，请重新输入";
 		cin.ignore(100, '\n');//清空cin流
@@ -294,14 +295,14 @@ void activity_finish(int n)//傻子安全
 		int year = to_int(day_later);
 		string month, day;
 		cin >> month;
-		while (!is_num(month))
+		while (!is_proper_num(month))
 		{
 			cout << "月份输入有误，请重新输入:";
 			cin.ignore(100, '\n');//清空cin流
 			cin >> month;
 		}
 		cin >> day;
-		while (!is_num(day))
+		while (!is_proper_num(day))
 		{
 			cout << "日期输入有误，请重新输入:";
 			cin.ignore(100, '\n');//清空cin流
@@ -330,7 +331,7 @@ int operate() //操作起来！//傻子安全
 	string t;
 	cout << "请输入你要操作的ID：输入-1退出\n";
 	cin >> n_to_judge;
-	while (!is_num(n_to_judge))
+	while (!is_proper_num(n_to_judge))
 	{
 		cout << "输入错误，请重新输入：";
 		cin >> n_to_judge;
@@ -368,14 +369,14 @@ void new_record()//傻子安全
 	string remark; //备注	
 	cout << "请输入楼号和房号\n";
 	cin >> num_building;
-	while (!is_num(num_building))
+	while (!is_proper_num(num_building))
 	{
 		cout << "楼号输入有误，请重新输入:";
 		cin.ignore(100, '\n');//清空cin流
 		cin >> num_building;
 	}
 	cin >> num_house;
-	while (!is_num(num_house))
+	while (!is_proper_num(num_house))
 	{
 		cout << "房号输入有误，请重新输入:";
 		cin.ignore(100, '\n');//清空cin流
@@ -384,7 +385,7 @@ void new_record()//傻子安全
 	string day_later;
 	cout << "请输入预约时间:（输入一个小于10的数n，表示n天后）";
 	cin >> day_later;
-	while (!is_num(day_later))
+	while (!is_proper_num(day_later))
 	{
 		cout << "输入有误，请重新输入";
 		cin.ignore(100, '\n');//清空cin流
@@ -404,14 +405,14 @@ void new_record()//傻子安全
 		int year = to_int(day_later);
 		string month, day;
 		cin >> month;
-		while (!is_num(month))
+		while (!is_proper_num(month))
 		{
 			cout << "月份输入有误，请重新输入:";
 			cin.ignore(100, '\n');//清空cin流
 			cin >> month;
 		}
 		cin >> day;
-		while (!is_num(day))
+		while (!is_proper_num(day))
 		{
 			cout << "日期输入有误，请重新输入:";
 			cin.ignore(100, '\n');//清空cin流
@@ -423,14 +424,14 @@ void new_record()//傻子安全
 	cin >> detail;
 	cout << "请输入收费与成本\n";
 	cin >> money_income;
-	while (!is_num(money_income))
+	while (!is_proper_num(money_income))
 	{
 		cout << "收费输入有误，请重新输入:";
 		cin.ignore(100, '\n');//清空cin流
 		cin >> money_income;
 	}
 	cin >> money_outcome;
-	while (!is_num(money_outcome))
+	while (!is_proper_num(money_outcome))
 	{
 		cout << "成本输入有误，请重新输入:";
 		cin.ignore(100, '\n');//清空cin流
@@ -578,7 +579,7 @@ void statistic_income_date()//傻子安全
 	int num = 0;
 	string day_later;
 	cin >> day_later;
-	while (!is_num(day_later))
+	while (!is_proper_num(day_later))
 	{
 		cout << "输入有误，请重新输入";
 		cin.ignore(100, '\n');//清空cin流
@@ -591,14 +592,14 @@ void statistic_income_date()//傻子安全
 		int year = to_int(day_later);
 		string month, day;
 		cin >> month;
-		while (!is_num(month))
+		while (!is_proper_num(month))
 		{
 			cout << "月份输入有误，请重新输入:";
 			cin.ignore(100, '\n');//清空cin流
 			cin >> month;
 		}
 		cin >> day;
-		while (!is_num(day))
+		while (!is_proper_num(day))
 		{
 			cout << "日期输入有误，请重新输入:";
 			cin.ignore(100, '\n');//清空cin流
@@ -627,7 +628,7 @@ void statistic_income_building()//傻子安全
 	double total_income = 0, total_outcome = 0;
 	int num = 0;
 	cin >> build_to_judge;
-	while (!is_num(build_to_judge))
+	while (!is_proper_num(build_to_judge))
 	{
 		cout << "输入错误，请重输:";
 		cin >> build_to_judge;
