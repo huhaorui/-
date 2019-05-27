@@ -110,7 +110,7 @@ void edit_date(int n)//傻子安全
 		{
 			date_tmp = date_tmp.tomorrow();
 		}
-		records[n].edit_date_yy(date_tmp);
+		records[n].edit_date_reserve(date_tmp);
 	}
 	else
 	{
@@ -130,15 +130,15 @@ void edit_date(int n)//傻子安全
 			cin.ignore(100, '\n');//清空cin流
 			cin >> day;
 		}
-		records[n].edit_date_yy(date(year, to_int(month), to_int(day)));
+		records[n].edit_date_reserve(date(year, to_int(month), to_int(day)));
 	}
 }
-void edit_detail(int n)//傻子安全
+void edit_content(int n)//傻子安全
 {
-	string detail;
+	string content;
 	cout << "请输入维修内容： ";
-	cin >> detail;
-	records[n].edit_detail(detail);
+	cin >> content;
+	records[n].edit_content(content);
 }
 void edit_money(int n)//傻子安全
 {
@@ -178,7 +178,7 @@ void edit_all(int n)//傻子安全
 {
 	edit_num(n);
 	edit_date(n);
-	edit_detail(n);
+	edit_content(n);
 	edit_money(n);
 	edit_people(n);
 	edit_remark(n);
@@ -187,17 +187,17 @@ void init()//傻子安全
 {
 	k = 0;
 	int num_building, num_house; //楼号，房号
-	date date_yy, date_fact; //预约时间，实际时间
-	string detail; //维修内容
+	date date_reserve, date_fact; //预约时间，实际时间
+	string content; //维修内容
 	double money_income, money_outcome; //收费，成本
 	string people; //检修人
 	string remark; //备注	
 	int done;
 	ifstream infile;
 	infile.open("database.dat", ios::in);
-	while (infile >> num_building >> num_house >> date_yy >> date_fact >> detail >> money_income >> money_outcome >> people >> remark >> done)
+	while (infile >> num_building >> num_house >> date_reserve >> date_fact >> content >> money_income >> money_outcome >> people >> remark >> done)
 	{
-		records[k].set(num_building, num_house, date_yy, date_fact, detail, money_income, money_outcome, people, remark, done);
+		records[k].set(num_building, num_house, date_reserve, date_fact, content, money_income, money_outcome, people, remark, done);
 		k++;
 	}
 	infile.close();
@@ -236,7 +236,7 @@ void activity_edit(int n)//傻子安全
 		{
 		case '1':edit_num(n); break;
 		case '2':edit_date(n); break;
-		case '3':edit_detail(n); break;
+		case '3':edit_content(n); break;
 		case '4':edit_money(n); break;
 		case '5':edit_people(n); break;
 		case '6':edit_remark(n); break;
@@ -362,8 +362,8 @@ void new_record()//傻子安全
 {
 	cls();
 	string num_building, num_house; //楼号，房号
-	date date_yy, date_fact; //预约时间，实际时间
-	string detail; //维修内容
+	date date_reserve, date_fact; //预约时间，实际时间
+	string content; //维修内容
 	string money_income, money_outcome; //收费，成本
 	string people; //检修人
 	string remark; //备注	
@@ -398,7 +398,7 @@ void new_record()//傻子安全
 		{
 			date_tmp = date_tmp.tomorrow();
 		}
-		date_yy = date_tmp;
+		date_reserve = date_tmp;
 	}
 	else
 	{
@@ -418,10 +418,10 @@ void new_record()//傻子安全
 			cin.ignore(100, '\n');//清空cin流
 			cin >> day;
 		}
-		date_yy = date(year, to_int(month), to_int(day));
+		date_reserve = date(year, to_int(month), to_int(day));
 	}
 	cout << "请输入维修内容\n";
-	cin >> detail;
+	cin >> content;
 	cout << "请输入收费与成本\n";
 	cin >> money_income;
 	while (!is_proper_num(money_income))
@@ -441,7 +441,7 @@ void new_record()//傻子安全
 	cin >> people;
 	cout << "请输入备注:\n";
 	cin >> remark;
-	records[k] = record(to_int(num_building), to_int(num_house), date_yy, date_fact, detail, to_double(money_income), to_double(money_outcome), people, remark);
+	records[k] = record(to_int(num_building), to_int(num_house), date_reserve, date_fact, content, to_double(money_income), to_double(money_outcome), people, remark);
 	cls();
 	cout << "保存成功!记录如下：\n";
 	records[k].show();
@@ -454,7 +454,7 @@ void search_record()//傻子安全
 {
 	cls();
 	string key;
-	cout << "请输入你要查找的关键词\n";
+	cout << "请输入你要查找的关键词，系统会自动进行全局匹配\n";
 	cin >> key;
 	cls();
 	int n = 0;

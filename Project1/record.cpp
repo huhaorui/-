@@ -1,8 +1,43 @@
 #include "record.h"
 #include <iostream>
 #include <fstream>
+#include <time.h>
 #include <sstream>
 using namespace std;
+int to_int_2(string s)
+{
+	int n;
+	stringstream sstr;
+	sstr << s;
+	sstr >> n;
+	return n;
+}
+bool is_proper_num_2(char c)
+{
+	if (c <= '9' && c >= '0')
+		return true;
+	else
+		return false;
+}
+bool is_proper_num_2(string s)
+{
+	if (s.length() > 1) return false;
+	if (!is_proper_num_2(s[0]) && s[0] != '-') return false;
+	for (int x = 1; x < s.length(); x++)
+	{
+		if (!is_proper_num_2(s[x]) && s[x] != '.') return false;
+	}
+	return true;
+}
+date today_2()
+{
+	tm t;
+	time_t now;
+	time(&now);
+	localtime_s(&t, &now);
+	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
+	return d;
+}
 string toString(int n)
 {
 	stringstream sstr;
@@ -13,20 +48,20 @@ string toString(int n)
 string record::show_in_line()
 {
 	string s = "";
-	s = to_string(num_building) + ' ' + to_string(num_house) + ' ' + date_yy.out() + ' ' + date_fact.out() + ' ' + detail + ' ' + to_string(money_income) + ' ' + to_string(money_outcome) + ' ' + people + ' ' + remark + ' ' + to_string(done) + '\n';
+	s = to_string(num_building) + ' ' + to_string(num_house) + ' ' + date_reserve.out() + ' ' + date_fact.out() + ' ' + content + ' ' + to_string(money_income) + ' ' + to_string(money_outcome) + ' ' + people + ' ' + remark + ' ' + to_string(done) + '\n';
 	return s;
 }
 void record::show()
 {
 	cout << "位置\t： " << num_building << "号楼，" << num_house << "房\n";
 	cout << "预约时间： ";
-	date_yy.show();
+	date_reserve.show();
 	if (done)
 	{
 		cout << "\n完成时间： ";
 		date_fact.show();
 	}
-	cout << "\n维修内容： " << detail << '\n';
+	cout << "\n维修内容： " << content << '\n';
 	cout << "收费\t： " << money_income << '\n';
 	cout << "成本\t： " << money_outcome << '\n';
 	cout << "维修员\t： " << people << '\n';
@@ -40,13 +75,13 @@ void record::show(int n)
 	cout << "ID\t： " << n << '\n';
 	cout << "位置\t： " << num_building << "号楼，" << num_house << "房\n";
 	cout << "预约时间： ";
-	date_yy.show();
+	date_reserve.show();
 	if (done)
 	{
 		cout << "\n完成时间： ";
 		date_fact.show();
 	}
-	cout << "\n维修内容： " << detail << '\n';
+	cout << "\n维修内容： " << content << '\n';
 	cout << "收费\t： " << money_income << '\n';
 	cout << "成本\t： " << money_outcome << '\n';
 	cout << "维修员\t： " << people << '\n';
@@ -60,17 +95,17 @@ void record::edit_num(int a, int b)
 	num_building = a;
 	num_house = b;
 }
-void record::edit_date_yy(date d)
+void record::edit_date_reserve(date d)
 {
-	date_yy = d;
+	date_reserve = d;
 }
 void record::edit_date_fact(date d)
 {
 	date_fact = d;
 }
-void record::edit_detail(string s)
+void record::edit_content(string s)
 {
-	detail = s;
+	content = s;
 }
 void record::edit_money(double a, double b)
 {
@@ -93,7 +128,7 @@ void record::save_to_file()
 {
 	ofstream outfile;
 	outfile.open("database.dat", ios::app);
-	outfile << num_building << ' ' << num_house << ' ' << date_yy << ' ' << date_fact << ' ' << detail << ' ' << money_income << ' ' << money_outcome << ' ' << people << ' ' << remark << ' ' << done << '\n';
+	outfile << num_building << ' ' << num_house << ' ' << date_reserve << ' ' << date_fact << ' ' << content << ' ' << money_income << ' ' << money_outcome << ' ' << people << ' ' << remark << ' ' << done << '\n';
 	outfile.close();
 }
 bool record::unfinished()
@@ -102,7 +137,7 @@ bool record::unfinished()
 }
 bool record::overdate(date d)
 {
-	if (d > date_yy) return true;
+	if (d > date_reserve) return true;
 	return false;
 }
 bool record::day_fact_is(date d)
@@ -113,20 +148,20 @@ record::record()
 {
 	num_building = 0;
 	num_house = 0;
-	detail = "";
+	content = "";
 	money_income = 0;
 	money_outcome = 0;
 	people = "";
 	remark = "";
 	done = 0;
 }
-record::record(int s_num_building, int s_num_house, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
+record::record(int s_num_building, int s_num_house, date s_date_reserve, date s_date_fact, string s_content, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
 {
 	num_building = s_num_building;
 	num_house = s_num_house;
-	date_yy = s_date_yy;
+	date_reserve = s_date_reserve;
 	date_fact = s_date_fact;
-	detail = s_detail;
+	content = s_content;
 	money_income = s_money_income;
 	money_outcome = s_money_outcome;
 	people = s_people;
@@ -134,13 +169,13 @@ record::record(int s_num_building, int s_num_house, date s_date_yy, date s_date_
 	done = s_done;
 }
 
-void record::set(int s_num_building, int s_num_house, date s_date_yy, date s_date_fact, string s_detail, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
+void record::set(int s_num_building, int s_num_house, date s_date_reserve, date s_date_fact, string s_content, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done)
 {
 	num_building = s_num_building;
 	num_house = s_num_house;
-	date_yy = s_date_yy;
+	date_reserve = s_date_reserve;
 	date_fact = s_date_fact;
-	detail = s_detail;
+	content = s_content;
 	money_income = s_money_income;
 	money_outcome = s_money_outcome;
 	people = s_people;
@@ -149,13 +184,24 @@ void record::set(int s_num_building, int s_num_house, date s_date_yy, date s_dat
 }
 bool record::exist(string s)
 {
-	if (detail.find(s) != string::npos) return true;
+	if (content.find(s) != string::npos) return true;
 	if (people.find(s) != string::npos) return true;
 	if (remark.find(s) != string::npos) return true;
 	if (toString(num_building).find(s) != string::npos) return true;
 	if (toString(num_house).find(s) != string::npos) return true;
 	if (toString(money_income).find(s) != string::npos) return true;
 	if (toString(money_outcome).find(s) != string::npos) return true;
+	if (date_fact.out().find(s) != string::npos) return true;
+	if (date_reserve.out().find(s) != string::npos) return true;
+	if (is_proper_num_2(s))
+	{
+		date d = today_2();
+		for (int x = 0; x < to_int_2(s); x++)
+		{
+			d = d.tomorrow();
+		}
+		if (d == date_fact || d == date_reserve) return true;
+	}
 	return false;
 }
 record::~record()
