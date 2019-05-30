@@ -1,77 +1,16 @@
 #include <iostream>
 #include "record.h"
 #include "date_time.h"
-#include <cstdio>
+#include "node.h"
+#include "function.h"
 #include <fstream>
-#include <conio.h>
 #include <sstream>
-#include <time.h>
 #include <algorithm>
-#include <string>
 using namespace std;
 record records[100000];
 int k = 0;//总的记录数
 //傻子安全的定义：cin流只会进入string中，如果不符合要求，就会要求重输
-void pause()
-{
-	system("pause");
-}
-void cls()
-{
-	system("cls");
-}
-date today()
-{
-	tm t;
-	time_t now;
-	time(&now);
-	localtime_s(&t, &now);
-	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
-	return d;
-}
-bool is_proper_num(char c)
-{
-	if (c <= '9' && c >= '0')
-		return true;
-	else
-		return false;
-}
-bool is_proper_num(string s)
-{
-	if (s.length() > 8) return false;
-	if (!is_proper_num(s[0]) && s[0] != '-') return false;
-	for (int x = 1; x < s.length(); x++)
-	{
-		if (!is_proper_num(s[x]) && s[x] != '.') return false;
-	}
-	return true;
-}
-int to_int(string s)
-{
-	int n;
-	stringstream sstr;
-	sstr << s;
-	sstr >> n;
-	return n;
-}
-double to_double(string s)
-{
-	double n;
-	stringstream sstr;
-	sstr << s;
-	sstr >> n;
-	return n;
-}
-date_time now()
-{
-	tm t;
-	time_t now;
-	time(&now);
-	localtime_s(&t, &now);
-	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
-	date_time dt(d, t.tm_hour, t.tm_min, t.tm_sec);
-	return dt;
-}
+
 void edit_num(int n)//傻子安全
 {
 	string num_building, num_house;

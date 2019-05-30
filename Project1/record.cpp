@@ -1,50 +1,9 @@
 #include "record.h"
+#include "function.h"
 #include <iostream>
-#include <fstream>
-#include <time.h>
 #include <sstream>
+#include <fstream>
 using namespace std;
-int to_int_2(string s)
-{
-	int n;
-	stringstream sstr;
-	sstr << s;
-	sstr >> n;
-	return n;
-}
-bool is_proper_num_2(char c)
-{
-	if (c <= '9' && c >= '0')
-		return true;
-	else
-		return false;
-}
-bool is_proper_num_2(string s)
-{
-	if (s.length() > 1) return false;
-	if (!is_proper_num_2(s[0]) && s[0] != '-') return false;
-	for (int x = 1; x < s.length(); x++)
-	{
-		if (!is_proper_num_2(s[x]) && s[x] != '.') return false;
-	}
-	return true;
-}
-date today_2()
-{
-	tm t;
-	time_t now;
-	time(&now);
-	localtime_s(&t, &now);
-	date d(t.tm_year + 1900, t.tm_mon + 1, t.tm_mday);
-	return d;
-}
-string toString(int n)
-{
-	stringstream sstr;
-	sstr << n;
-	string str = sstr.str();
-	return str;
-}
 string record::show_in_line()
 {
 	string s = "";
@@ -193,10 +152,10 @@ bool record::exist(string s)
 	if (toString(money_outcome).find(s) != string::npos) return true;
 	if (date_fact.out().find(s) != string::npos) return true;
 	if (date_reserve.out().find(s) != string::npos) return true;
-	if (is_proper_num_2(s))
+	if (is_proper_num(s))
 	{
-		date d = today_2();
-		for (int x = 0; x < to_int_2(s); x++)
+		date d = today();
+		for (int x = 0; x < to_int(s); x++)
 		{
 			d = d.tomorrow();
 		}
