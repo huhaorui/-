@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <time.h>
 using namespace std;
 record records[100000];
 int k = 0;//总的记录数
@@ -619,6 +620,17 @@ void statistic_income()//傻子安全
 	case '3': statistic_income_people(); break;
 	}
 }
+void random_record()
+{
+	cls();
+	for (int x=0;x<100;x++)
+		srand(rand());
+	Node* head = read_data_from_array(records, k);
+	int t = float(rand()) / RAND_MAX * k;
+	record random_record = get_node(head, t);
+	random_record.show(t);
+	operate();
+}
 int main()//傻子安全
 {
 	init();
@@ -629,6 +641,7 @@ int main()//傻子安全
 		cout << "正在读取文件，请等待\n";
 		init();
 		cls();
+		srand((int)time(0));
 		now().show();
 		cout << '\n';
 		cout << "┌──────────────────┐\n";
@@ -637,7 +650,8 @@ int main()//傻子安全
 		cout << "│ 3.查看所有记录   │\n";
 		cout << "│ 4.预约到期查询   │\n";
 		cout << "│ 5.高级统计功能   │\n";
-		cout << "│ 6.退出系统       │\n";
+		cout << "│ 6.显示随机记录   │\n";
+		cout << "│ 7.退出系统       │\n";
 		cout << "└──────────────────┘\n";
 		cout << "请输入你要使用的功能： ";
 		cin >> c;
@@ -647,7 +661,8 @@ int main()//傻子安全
 		case 3:find_all_record(); break;
 		case 4:intime_service(); break;
 		case 5:statistic_income(); break;
-		case 6:save_all(); cout << "感谢使用，再见"; return 0; break;
+		case 6:random_record(); break;
+		case 7:save_all(); cout << "感谢使用，再见"; return 0; break;
 		default:
 			cout << "输入错误，请重新输入\n";
 		}

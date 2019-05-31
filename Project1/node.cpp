@@ -3,19 +3,18 @@
 Node* new_node(int n)
 {
 	Node* head = new Node;
-	head->value = 0;
+	head->value = record();
 	Node* tail = head;
 	for (int x = 1; x <= n; x++)
 	{
 		Node* tmp = new Node;
-		tmp->value = x;
 		tail->next = tmp;
 		tail = tmp;
 	}
 	tail->next = NULL;
 	return head;
 }
-bool add_node(Node* n, int k, int value)
+bool add_node(Node* n, int k, record value)
 {
 	for (int x = 1; x < k; x++)
 	{
@@ -36,11 +35,26 @@ bool delete_node(Node* n, int k)
 	n->next = n->next->next;
 	return true;
 }
-int get_node(Node* n, int k)
+record get_node(Node* n, int k)
 {
 	for (int x = 1; x < k; x++)
 	{
 		n = n->next;
 	}
 	return n->value;
+}
+Node* read_data_from_array(record r[], int k)
+{
+	Node* head = new Node;
+	Node* tail = head;
+	head->value = r[0];
+	for (int x = 1; x < k; x++)
+	{
+		Node* tmp = new Node;
+		tmp->next = NULL;
+		tmp->value = r[x];
+		tail->next = tmp;
+		tail = tmp;
+	}
+	return head;
 }
