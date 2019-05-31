@@ -665,6 +665,7 @@ int main()//傻子安全
 		case 7:save_all(); cout << "感谢使用，再见"; return 0; break;
 		default:
 			cout << "输入错误，请重新输入\n";
+			pause();
 		}
 		cls();
 	}
