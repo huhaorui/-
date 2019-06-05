@@ -1,6 +1,6 @@
+#pragma once
 #include <iostream>
 using namespace std;
-#pragma once
 class date
 {
 protected:
@@ -19,4 +19,3 @@ public:
 	friend ostream& operator <<(ostream& output, date& d);
 	friend istream& operator >>(istream& input, date& d);
 };
-

@@ -1,5 +1,4 @@
 #include "node.h"
-#include <cstddef>
 Node* new_node(int n)
 {
 	Node* head = new Node;
