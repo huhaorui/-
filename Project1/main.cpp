@@ -623,10 +623,10 @@ void statistic_income()//Éµ×Ó°²È«
 void random_record()
 {
 	cls();
-	for (int x=0;x<100;x++)
+	for (int x = 0; x < 100; x++)
 		srand(rand());
 	Node* head = read_data_from_array(records, k);
-	int t = float(rand()) / RAND_MAX * k;
+	int t = int(float(rand()) / RAND_MAX * k);
 	record random_record = get_node(head, t);
 	random_record.show(t);
 	operate();

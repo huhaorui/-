@@ -57,4 +57,3 @@ public:
 	record(int s_num_building, int s_num_house, date s_date_reserve, date s_date_fact, string s_content, double s_money_income, double s_money_outcome, string s_people, string  s_remark, bool s_done = 0);
 	~record();
 };
-
