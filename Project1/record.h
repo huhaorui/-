@@ -1,6 +1,6 @@
 #pragma once
 #include "date.h"
-#include <string>
+#include <string> 
 class record
 {
 protected:
@@ -37,11 +37,11 @@ public:
 	bool day_fact_is(date);
 	bool num_building_is(int n)
 	{
-		if (n == num_building) return true; else return false;
+		return n == num_building;
 	}
 	bool name_is(string s)
 	{
-		if (s == people) return true; else return false;
+		return s == people;
 	}
 	bool exist(string s);//ÅĞ¶ÏÊÇ·ñ´æÔÚ×Ó´®
 	double get_income()

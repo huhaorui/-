@@ -404,7 +404,6 @@ void search_record()//Éµ×Ó°²È«
 		{
 			records[x].show(x);
 			n++;
-			continue;
 		}
 	}
 	if (n != 0)
