@@ -128,6 +128,7 @@
     <ClCompile Include="date_time.cpp" />
     <ClCompile Include="function.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MD5.cpp" />
     <ClCompile Include="node.cpp" />
     <ClCompile Include="record.cpp" />
   </ItemGroup>
@@ -135,6 +136,7 @@
     <ClInclude Include="date.h" />
     <ClInclude Include="date_time.h" />
     <ClInclude Include="function.h" />
+    <ClInclude Include="MD5.h" />
     <ClInclude Include="node.h" />
     <ClInclude Include="record.h" />
   </ItemGroup>

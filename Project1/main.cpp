@@ -3,6 +3,7 @@
 #include "date_time.h"
 #include "node.h"
 #include "function.h"
+#include "MD5.h"
 #include <fstream>
 #include <sstream>
 #include <algorithm>
@@ -11,7 +12,78 @@ using namespace std;
 record records[100000];
 int k = 0;//总的记录数
 //傻子安全的定义：cin流只会进入string中，如果不符合要求，就会要求重输
-
+void judge_permission()
+{
+	string str, password_MD5ed, result;
+	ifstream infile;
+	infile.open("password.dat", ios::in);
+	infile >> password_MD5ed;
+	infile.close();
+	do
+	{
+		cout << "请输入管理员密码:";
+		cin >> str;
+		MD5 md5(str);
+		result = md5.md5();
+		cout << "密码错误\n";
+	} while (result != password_MD5ed);
+	cls();
+}
+void passwd_root()//取名自Linux的更改密码操作
+{
+	cls();
+	string str, password_MD5ed, result;
+	ifstream infile;
+	infile.open("password.dat", ios::in);
+	infile >> password_MD5ed;
+	infile.close();
+	do
+	{
+		cout << "请输入原来的管理员密码:";
+		cin >> str;
+		MD5 md5(str);
+		result = md5.md5();
+		cout << "密码错误\n";
+	} while (result != password_MD5ed);
+	cls();
+	string psd1, psd2;
+	do
+	{
+		cls();
+		cout << "请输入新的密码:";
+		cin >> psd1;
+		MD5 md5_1(psd1);
+		psd1 = md5_1.md5();
+		cout << "请再输一次:";
+		cin >> psd2;
+		MD5 md5_2(psd2);
+		psd2 = md5_2.md5();
+		if (psd1 != psd2)
+		{
+			cout << "两次输入的密码不一致\n";
+			pause();
+		}
+	} while (psd1 != psd2);
+	cls();
+	cout << "确定要修改密码吗？(y/n)";
+	string op;
+	cin >> op;
+	if (op[0] == 'y' || op[0] == 'Y')
+	{
+		ofstream outfile;
+		outfile.open("password.dat", ios::out);
+		outfile << psd1;
+		outfile.close();
+		cls();
+		cout << "密码修改成功\n";
+		pause();
+	}
+	else
+	{
+		cout << "密码未修改\n";
+		pause();
+	}
+}
 void edit_num(int n)//傻子安全
 {
 	string num_building, num_house;
@@ -123,7 +195,7 @@ void edit_all(int n)//傻子安全
 	edit_people(n);
 	edit_remark(n);
 }
-void init()//傻子安全
+void read_from_file()//傻子安全
 {
 	k = 0;
 	int num_building, num_house; //楼号，房号
@@ -157,7 +229,7 @@ void save_all()//傻子安全
 		outfile << records[x].show_in_line();
 	}
 	outfile.close();
-	init();
+	read_from_file();
 }
 void activity_edit(int n)//傻子安全
 {
@@ -387,7 +459,7 @@ void new_record()//傻子安全
 	records[k].show();
 	k++;
 	save_all();
-	init();
+	read_from_file();
 	pause();
 }
 void search_record()//傻子安全
@@ -632,13 +704,14 @@ void random_record()
 }
 int main()//傻子安全
 {
-	init();
+	judge_permission();
+	read_from_file();
 	cout << "欢迎使用物业维修管理系统\n";
 	while (true)
 	{
 		string c;
 		cout << "正在读取文件，请等待\n";
-		init();
+		read_from_file();
 		cls();
 		srand((int)time(0));
 		now().show();
@@ -650,7 +723,8 @@ int main()//傻子安全
 		cout << "│ 4.预约到期查询   │\n";
 		cout << "│ 5.高级统计功能   │\n";
 		cout << "│ 6.显示随机记录   │\n";
-		cout << "│ 7.退出系统       │\n";
+		cout << "│ 7.修改密码       │\n";
+		cout << "│ 8.退出系统       │\n";
 		cout << "└──────────────────┘\n";
 		cout << "请输入你要使用的功能： ";
 		cin >> c;
@@ -661,7 +735,8 @@ int main()//傻子安全
 		case 4:intime_service(); break;
 		case 5:statistic_income(); break;
 		case 6:random_record(); break;
-		case 7:save_all(); cout << "感谢使用，再见"; return 0; break;
+		case 7:passwd_root(); break;
+		case 8:save_all(); cout << "感谢使用，再见"; return 0; break;
 		default:
 			cout << "输入错误，请重新输入\n";
 			pause();

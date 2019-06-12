@@ -33,6 +33,9 @@
     <ClCompile Include="function.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MD5.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="record.h">
@@ -48,6 +51,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="function.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MD5.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
