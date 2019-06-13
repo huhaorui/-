@@ -240,19 +240,28 @@ void activity_edit(int n)//傻子安全
 	cout << "1.楼房号码\n2.预约时间\n3.维修内容\n4.收费与成本\n5.检修人\n6.备注\n7.全部\n8.退出\n";
 	cout << "请一次性输入所有要修改的项目，如“135”\n";
 	cin >> op;
+	bool flag[7];
+	for (int x = 0; x < 7; x++)
+	{
+		flag[x] = true;
+	}
 	for (int x = 0; x < op.length(); x++)
 	{
-		cls();
-		records[n].show(n);
-		switch (op[x])
+		if (flag[op[x] - '0'])
 		{
-		case '1':edit_num(n); break;
-		case '2':edit_date(n); break;
-		case '3':edit_content(n); break;
-		case '4':edit_money(n); break;
-		case '5':edit_people(n); break;
-		case '6':edit_remark(n); break;
-		case '7':edit_all(n); break;
+			cls();
+			flag[op[x]] = false;
+			records[n].show(n);
+			switch (op[x])
+			{
+			case '1':edit_num(n); break;
+			case '2':edit_date(n); break;
+			case '3':edit_content(n); break;
+			case '4':edit_money(n); break;
+			case '5':edit_people(n); break;
+			case '6':edit_remark(n); break;
+			case '7':edit_all(n); break;
+			}
 		}
 	}
 	cls();
@@ -476,6 +485,7 @@ void search_record()//傻子安全
 		{
 			records[x].show(x);
 			n++;
+			if (!((n) % 2)) pause();
 		}
 	}
 	if (n != 0)
@@ -493,6 +503,7 @@ void find_all_record()//傻子安全
 	{
 		records[x].show(x);
 		cout << '\n';
+		if (!((x + 1) % 2)) pause();
 	}
 	if (k != 0)
 		operate();
@@ -513,6 +524,7 @@ void fix_unfinished()//傻子安全
 			n++;
 			records[x].show(x);
 			cout << '\n';
+			if (!(n % 2)) pause();
 		}
 	}
 	if (n != 0)
@@ -534,6 +546,7 @@ void fix_overdate()//傻子安全
 			records[x].show(x);
 			cout << '\n';
 			n++;
+			if (!(n % 2)) pause();
 		}
 	}
 	if (n != 0)
@@ -555,6 +568,7 @@ void fix_two_days()//傻子安全
 			n++;
 			records[x].show(x);
 			cout << '\n';
+			if (!(n % 2)) pause();
 		}
 	}
 	if (n != 0)
