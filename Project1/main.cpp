@@ -250,7 +250,7 @@ void activity_edit(int n)//Éµ×Ó°²È«
 		if (flag[op[x] - '0'])
 		{
 			cls();
-			flag[op[x]] = false;
+			flag[op[x] - '0'] = false;
 			records[n].show(n);
 			switch (op[x])
 			{
