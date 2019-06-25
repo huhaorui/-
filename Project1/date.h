@@ -6,7 +6,7 @@ class date
 protected:
 	int day, month, year;
 public:
-	date(int y = 2019, int m = 5, int d = 22);
+	date(int y = 1900, int m = 1, int d = 1);
 	void show()
 	{
 		cout << year << '/' << month << '/' << day;
