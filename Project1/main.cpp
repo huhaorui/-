@@ -11,7 +11,6 @@
 using namespace std;
 record records[100000];
 int k = 0;//总的记录数
-//傻子安全的定义：cin流只会进入string中，如果不符合要求，就会要求重输
 void judge_permission()
 {
 	string str, password_MD5ed, result;
@@ -84,7 +83,7 @@ void passwd_root()//取名自Linux的更改密码操作
 		pause();
 	}
 }
-void edit_num(int n)//傻子安全
+void edit_num(int n)
 {
 	string num_building, num_house;
 	cout << "请输入新的楼号与房号:";
@@ -104,7 +103,7 @@ void edit_num(int n)//傻子安全
 	}
 	records[n].edit_num(to_int(num_building), to_int(num_house));
 }
-void edit_date(int n)//傻子安全
+void edit_date(int n)
 {
 	string day_later;
 	cout << "请输入新的预约时间:（输入一个小于10的数n，表示n天后）";
@@ -145,14 +144,14 @@ void edit_date(int n)//傻子安全
 		records[n].edit_date_reserve(date(year, to_int(month), to_int(day)));
 	}
 }
-void edit_content(int n)//傻子安全
+void edit_content(int n)
 {
 	string content;
 	cout << "请输入维修内容： ";
 	cin >> content;
 	records[n].edit_content(content);
 }
-void edit_money(int n)//傻子安全
+void edit_money(int n)
 {
 	string money_income, money_outcome;
 	cout << "请输入收费和成本： ";
@@ -172,21 +171,21 @@ void edit_money(int n)//傻子安全
 	}
 	records[n].edit_money(to_double(money_income), to_double(money_outcome));
 }
-void edit_people(int n)//傻子安全
+void edit_people(int n)
 {
 	string people;
 	cout << "请输入检修人： ";
 	cin >> people;
 	records[n].edit_people(people);
 }
-void edit_remark(int n)//傻子安全
+void edit_remark(int n)
 {
 	string remark;
 	cout << "请输入备注： ";
 	cin >> remark;
 	records[n].edit_remark(remark);
 }
-void edit_all(int n)//傻子安全
+void edit_all(int n)
 {
 	edit_num(n);
 	edit_date(n);
@@ -195,7 +194,7 @@ void edit_all(int n)//傻子安全
 	edit_people(n);
 	edit_remark(n);
 }
-void read_from_file()//傻子安全
+void read_from_file()
 {
 	k = 0;
 	int num_building, num_house; //楼号，房号
@@ -218,7 +217,7 @@ bool cmp(record& a, record& b)
 {
 	return a < b;
 }
-void save_all()//傻子安全
+void save_all()
 {
 	cout << "正在保存文件，请耐心等待\n";
 	sort(records, records + k, cmp);
@@ -231,7 +230,7 @@ void save_all()//傻子安全
 	outfile.close();
 	read_from_file();
 }
-void activity_edit(int n)//傻子安全
+void activity_edit(int n)
 {
 	string op;
 	cls();
@@ -270,7 +269,7 @@ void activity_edit(int n)//傻子安全
 	cout << "操作成功完成\n";
 	pause();
 }
-void activity_delete(int n)//傻子安全
+void activity_delete(int n)
 {
 	cout << "这个操作不可逆，确认删除这条记录吗？(y/n)\n";
 	string yesno;
@@ -284,7 +283,7 @@ void activity_delete(int n)//傻子安全
 	{
 		for (int x = n; x < k - 1; x++)
 		{
-			records[x] = records[x + 1]; //未来考虑用链表实现
+			records[x] = records[x + 1]; 
 		}
 		k--;
 		save_all();
@@ -292,7 +291,7 @@ void activity_delete(int n)//傻子安全
 		pause();
 	}
 }
-void activity_finish(int n)//傻子安全
+void activity_finish(int n)
 {
 	string day_later;
 	date date_tmp = today();
@@ -345,7 +344,7 @@ void activity_finish(int n)//傻子安全
 	cout << "\n操作已成功完成\n";
 	pause();
 }
-int operate() //操作起来！//傻子安全
+int operate() //操作起来！
 {
 	int n;
 	string n_to_judge;
@@ -379,7 +378,7 @@ int operate() //操作起来！//傻子安全
 	}
 	return 0;
 }
-void new_record()//傻子安全
+void new_record()
 {
 	cls();
 	string num_building, num_house; //楼号，房号
@@ -471,7 +470,7 @@ void new_record()//傻子安全
 	read_from_file();
 	pause();
 }
-void search_record()//傻子安全
+void search_record()
 {
 	cls();
 	string key;
@@ -496,7 +495,7 @@ void search_record()//傻子安全
 		pause();
 	}
 }
-void find_all_record()//傻子安全
+void find_all_record()
 {
 	cls();
 	for (int x = 0; x < k; x++)
@@ -513,7 +512,7 @@ void find_all_record()//傻子安全
 		pause();
 	}
 }
-void fix_unfinished()//傻子安全
+void fix_unfinished()
 {
 	cls();
 	int n = 0;
@@ -535,7 +534,7 @@ void fix_unfinished()//傻子安全
 		pause();
 	}
 }
-void fix_overdate()//傻子安全
+void fix_overdate()
 {
 	cls();
 	int n = 0;
@@ -557,7 +556,7 @@ void fix_overdate()//傻子安全
 		pause();
 	}
 }
-void fix_two_days()//傻子安全
+void fix_two_days()
 {
 	cls();
 	int n = 0;
@@ -579,7 +578,7 @@ void fix_two_days()//傻子安全
 		pause();
 	}
 }
-void intime_service()//傻子安全
+void intime_service()
 {
 	cls();
 	cout << "1.显示所有未完成的维修\n";
@@ -596,7 +595,7 @@ void intime_service()//傻子安全
 	case '3':fix_two_days(); break;
 	}
 }
-void statistic_income_date()//傻子安全
+void statistic_income_date()
 {
 	cout << "请输入你要统计的日期，输入0统计今天：";
 	date d;
@@ -646,7 +645,7 @@ void statistic_income_date()//傻子安全
 	cout << "，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
 	pause();
 }
-void statistic_income_building()//傻子安全
+void statistic_income_building()
 {
 	cout << "请输入你要统计的楼： ";
 	string build_to_judge;
@@ -671,7 +670,7 @@ void statistic_income_building()//傻子安全
 	cout << "\n对这栋楼，总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
 	pause();
 }
-void statistic_income_people()//傻子安全
+void statistic_income_people()
 {
 	cout << "请输入你要统计的检修员姓名： ";
 	string name;
@@ -690,7 +689,7 @@ void statistic_income_people()//傻子安全
 	cout << '\n' << name << "总共进行了" << num << "次维修，收到了" << total_income << "元，净盈利" << total_income - total_outcome << "元\n";
 	pause();
 }
-void statistic_income()//傻子安全
+void statistic_income()
 {
 	string n;
 	cout << "1.按天统计\n";
@@ -716,7 +715,7 @@ void random_record()
 	random_record.show(t);
 	operate();
 }
-int main()//傻子安全
+int main()
 {
 	judge_permission();
 	read_from_file();
