@@ -717,6 +717,8 @@ void random_record()
 }
 int main()
 {
+	cout << "胡皓睿 201806061108\n";
+	pause();
 	judge_permission();
 	read_from_file();
 	cout << "欢迎使用物业维修管理系统\n";
@@ -737,7 +739,7 @@ int main()
 		cout << "│ 5.高级统计功能   │\n";
 		cout << "│ 6.显示随机记录   │\n";
 		cout << "│ 7.修改密码       │\n";
-		cout << "│ 8.退出系统       │\n";
+		cout << "│ 0.退出系统       │\n";
 		cout << "└──────────────────┘\n";
 		cout << "请输入你要使用的功能： ";
 		cin >> c;
@@ -749,7 +751,7 @@ int main()
 		case 5:statistic_income(); break;
 		case 6:random_record(); break;
 		case 7:passwd_root(); break;
-		case 8:save_all(); cout << "感谢使用，再见"; return 0; break;
+		case 0:save_all(); cout << "感谢使用，再见"; return 0; break;
 		default:
 			cout << "输入错误，请重新输入\n";
 			pause();

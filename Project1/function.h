@@ -1,7 +1,7 @@
 #pragma once
 #include "date_time.h"
 void pause();
-void cls();
+void cls ();
 date today();
 bool is_proper_num(char c);
 bool is_proper_num(string s);
