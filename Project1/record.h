@@ -1,10 +1,7 @@
 #pragma once
 #include "date.h"
 #include <string> 
-class A
-{
-};
-class record:virtual public A
+class record
 {
 protected:
 	int num_building, num_house; //Â¥ºÅ£¬·¿ºÅ

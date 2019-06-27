@@ -717,7 +717,7 @@ void random_record()
 }
 int main()
 {
-	cout << "ºúð©î£ 201806061108\n";
+	cout << "                                                                                          ºúð©î£ 201806061108\n";
 	pause();
 	judge_permission();
 	read_from_file();
